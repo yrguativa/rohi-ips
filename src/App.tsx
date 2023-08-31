@@ -1,12 +1,24 @@
-import './App.css'
+import { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from './hooks/hooks'
+import { thunkCheckedLogin } from './store/slices/user'
+
 import Navbar from './Shared/Navbar/Navbar'
-import UserHome from './Pages/UserHome/UserHome'
+import './App.css'
+import ClientHome from './Pages/clientHome/ClientHome'
 
 function App() {
+  const { displayName } = useAppSelector(state => state.userAuth);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(thunkCheckedLogin)
+  });
+
   return (
     <>
       <Navbar></Navbar>
-      <UserHome></UserHome>
+      {displayName}
+      <ClientHome></ClientHome>
     </>
   )
 }

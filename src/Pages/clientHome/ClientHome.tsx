@@ -1,6 +1,21 @@
-export default function UserHome() {
-    const loginGoogle = () => {
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { thunkLoadContract, thunkPayment } from "../../store/slices/client";
 
+
+export default function UserHome() {
+    const dispatch = useAppDispatch();
+    const { Contract } = useAppSelector(state => state.contractState);
+
+    // useEffect(() => {
+    //     dispatch(thunkLoadContract());
+    // });
+
+    const loginGoogle = () => {
+        dispatch(thunkLoadContract());
+    };
+
+    const paymentContract = (idPayment: string) => {
+        dispatch(thunkPayment(idPayment))
     };
 
     return (
@@ -9,29 +24,25 @@ export default function UserHome() {
                 <tr>
                     <th>Pago</th>
                     <th>Valor</th>
-                    <th></th>
+                    <th><button onClick={loginGoogle} className="bg-lime-500 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                        Pagar
+                    </button></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>31/08/2023</td>
-                    <td>Malcolm Lockyer</td>
-                    <td>
-                        <button onClick={loginGoogle} className="bg-lime-500 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                            Pagar
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Witchy Woman</td>
-                    <td>The Eagles</td>
-                    <td>1972</td>
-                </tr>
-                <tr>
-                    <td>Shining Star</td>
-                    <td>Earth, Wind, and Fire</td>
-                    <td>1975</td>
-                </tr>
+                {
+                    Contract?.Payments.map(payment => (
+                        <tr key={payment.Id}>
+                            <td>{payment.InvoiceDate.nanoseconds}</td>
+                            <td>{payment.Rate}</td>
+                            <td>
+                                <button onClick={() => paymentContract(payment.Id)} className="bg-lime-500 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                                    Pagar
+                                </button>
+                            </td>
+                        </tr>
+                    ))
+                }
             </tbody>
         </table>
     )

@@ -1,11 +1,11 @@
 
-import { Action, ThunkAction } from "@reduxjs/toolkit"
-import { RootState } from "../.."
-import { checkingCredentials, login, logout } from "."
-import { singInWithGoogle } from "../../../firebase/providersAuth"
-import { IUserAuthState } from "../../../models/interfaces/IUserAuth"
-import { onAuthStateChanged } from "firebase/auth"
-import { FirebaseAuth } from "../../../firebase/config"
+import { Action, ThunkAction } from "@reduxjs/toolkit";
+import { singInWithGoogle } from "../../../firebase/providersAuth";
+import { User } from "firebase/auth";
+
+import { RootState } from "../..";
+import { checkingCredentials, login, logout } from ".";
+import { IUserAuthState } from "../../../models/interfaces/IUserAuth";
 
 export const thunkLogin = (email: string, password: string): ThunkAction<void, RootState, unknown, Action> =>
     async dispatch => {
@@ -24,6 +24,7 @@ export const thunkSignInGoogle = (): ThunkAction<void, RootState, unknown, Actio
                 errorMessage: result.errorMessage
             } as IUserAuthState));
         }
+
         const state: IUserAuthState = {
             status: undefined,
             uid: result.uid,
@@ -35,22 +36,20 @@ export const thunkSignInGoogle = (): ThunkAction<void, RootState, unknown, Actio
         dispatch(login(state))
     }
 
-export const thunkCheckedLogin = (): ThunkAction<void, RootState, unknown, Action> =>
+export const thunkCheckedLogin = (user?: User | null): ThunkAction<void, RootState, unknown, Action> =>
     async dispatch => {
-        onAuthStateChanged(FirebaseAuth, async (user) => {
-            if (!user) {
-                return dispatch(logout({
-                    errorMessage: ''
-                } as IUserAuthState));
-            }
+        if (!user) {
+            return dispatch(logout({
+                errorMessage: ''
+            } as IUserAuthState));
+        }
 
-            const state: IUserAuthState = {
-                status: undefined,
-                uid: user.uid,
-                email: user.email,
-                displayName: user.displayName,
-                photoURL: user.photoURL
-            };
-            dispatch(login(state));
-        })
+        const state: IUserAuthState = {
+            status: undefined,
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL
+        };
+        dispatch(login(state));
     }

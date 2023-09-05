@@ -6,7 +6,7 @@ type FormLogin = {
     email: string;
     password: string;
 };
-
+//https://github.com/davidgrzyb/tailwind-auth-template/blob/master/login.html
 
 export default function LoginPage() {
     const dispatch = useAppDispatch();

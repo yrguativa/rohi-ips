@@ -1,7 +1,8 @@
 
 export interface IContractState {
     Contract?: Contract
-    PaymentURL?: string
+    PaymentURL?: string,
+    StatusPayment:PaymentStatusEnum,
 }
 
 export interface Contract {
@@ -37,4 +38,10 @@ export enum StatusEnum {
     Active = 1,
     Disabled,
     Cancel,
+}
+
+export enum PaymentStatusEnum {
+    None = 1,
+    Process,
+    Error,
 }

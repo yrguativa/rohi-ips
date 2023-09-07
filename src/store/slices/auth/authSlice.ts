@@ -10,6 +10,7 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         login: (state, action: PayloadAction<IUserAuthState>) => {
+            console.log('reducers login')
             const { payload } = action;
         
             state.status = 'authenticated';

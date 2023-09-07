@@ -6,7 +6,7 @@ import Navbar from './Shared/Navbar/Navbar'
 import './App.css'
 import { onAuthStateChanged } from 'firebase/auth'
 import { FirebaseAuth } from './firebase/config'
-import { thunkCheckedLogin } from './store/slices/user'
+import { thunkCheckedLogin } from './store/slices/auth'
 
 function App() {
   const dispatch = useAppDispatch();
@@ -15,7 +15,7 @@ function App() {
     onAuthStateChanged(FirebaseAuth, async (user) => {    
       dispatch(thunkCheckedLogin(user));
     })
-  });
+  },[dispatch]);
 
   return (
     <>

@@ -1,14 +1,17 @@
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
-import { thunkLoadContract, thunkPayment } from "../../store/slices/client";
+import { thunkPayment } from "../../store/slices/client";
+import { thunkLoadContract } from "../../store/slices/contract";
 
 
 export default function UserHome() {
     const dispatch = useAppDispatch();
     const { Contract } = useAppSelector(state => state.contractState);
 
-    // useEffect(() => {
-    //     dispatch(thunkLoadContract());
-    // });
+    useEffect(() => {
+        console.log('usefect')
+        dispatch(thunkLoadContract());
+    }, [dispatch]);
 
     const loginGoogle = () => {
         dispatch(thunkLoadContract());
@@ -24,9 +27,11 @@ export default function UserHome() {
                 <tr>
                     <th>Pago</th>
                     <th>Valor</th>
-                    <th><button onClick={loginGoogle} className="bg-lime-500 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                        Pagar
-                    </button></th>
+                    <th>
+                        <button onClick={loginGoogle} className="bg-lime-500 hover:bg-lime-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                            Pagar
+                        </button>
+                    </th>
                 </tr>
             </thead>
             <tbody>

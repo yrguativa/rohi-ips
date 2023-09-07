@@ -10,11 +10,6 @@ export const clientSlice = createSlice({
     name: 'client',
     initialState,
     reducers: {
-        loadContract: (state, action: PayloadAction<IContractState>) => {
-            const { payload } = action;
-
-            state.Contract = payload.Contract;
-        },
         urlPayment: (state, action: PayloadAction<string>) => {
             const { payload } = action;
 
@@ -30,4 +25,4 @@ export const clientSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { loadContract, urlPayment,updateStatusPayment } = clientSlice.actions;
+export const { urlPayment, updateStatusPayment } = clientSlice.actions;

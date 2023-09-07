@@ -1,6 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useAppDispatch } from "../../../hooks/hooks";
-import { thunkLogin, thunkSignInGoogle } from "../../../store/slices/user";
+import { useAppDispatch } from "../../hooks/hooks";
+import { thunkLogin, thunkSignInGoogle } from "../../store/slices/auth";
 
 type FormLogin = {
     email: string;

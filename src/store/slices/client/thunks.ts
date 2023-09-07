@@ -2,20 +2,9 @@
 import { Action, ThunkAction } from "@reduxjs/toolkit"
 
 import { RootState } from "../.."
-import { getContract } from "../../../services"
-import { loadContract, updateStatusPayment, urlPayment } from "."
+import { updateStatusPayment, urlPayment } from "."
 import { CreatedOrder } from "../../../services/servicePayments"
 import { PaymentStatusEnum } from "../../../models/interfaces/IContractState"
-
-export const thunkLoadContract = (): ThunkAction<void, RootState, unknown, Action> =>
-    async (dispatch, getState) => {
-        const { uid } = getState().userAuth;
-        const contract = await getContract(uid!)
-
-        console.log(contract)
-        dispatch(loadContract({ Contract: contract, StatusPayment: PaymentStatusEnum.None }))
-    }
-
 
 export const thunkPayment = (idPayment: string): ThunkAction<void, RootState, unknown, Action> =>
     async (dispatch, getState) => {

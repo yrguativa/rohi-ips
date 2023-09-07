@@ -1,7 +1,10 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import ClientHome from '../Pages/clientHome/ClientHome';
-import LoginPage from '../Pages/userHome/login/loginPage';
 import { useAppSelector } from '../hooks/hooks';
+
+import RegisterPage from '../Pages/auth/registerPage';
+import LoginPage from '../Pages/auth/loginPage';
+import ClientHome from '../Pages/clientHome/ClientHome';
+import ContractCreatePage from '../Pages/contract/createPage';
 
 export const AppRouter = () => {
     const { status } = useAppSelector(state => state.userAuth);
@@ -18,8 +21,10 @@ export const AppRouter = () => {
 
             {/* Login y Registro */}
             <Route path="/auth/*" element={<LoginPage />} />
-
-            <Route path="/home/*" element={<ClientHome />} />
+            <Route path="/auth/register" element={<RegisterPage />} />
+            <Route path="/" element={<ClientHome />} />
+            
+            <Route path="/contract/" element={<ContractCreatePage />} />
             {/* JournalApp */}
             {/* <Route path="/*" element={ <JournalRoutes /> } /> */}
 

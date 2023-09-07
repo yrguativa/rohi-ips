@@ -6,10 +6,10 @@ export interface IContractState {
 }
 
 export interface Contract {
-    Number: string;
-    Rate: number;
-    DateEnd: DateEnd;
-    DateStart: DateEnd;
+    Number?: string;
+    Rate?: number;
+    DateEnd?: DateEnd;
+    DateStart?: DateEnd;
     Patients: Patient[];
     Payments: Payment[];
     Status: StatusEnum;

@@ -77,6 +77,7 @@ export const loginWithEmailPassword = async ({ email, password }: IUserRegisterA
         }
     }
 }
+export const getCurrentUser = () => FirebaseAuth.currentUser!;
 
 export const logoutFirebase = async () => {
     return await FirebaseAuth.signOut();

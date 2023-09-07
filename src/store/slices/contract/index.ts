@@ -1,2 +1,2 @@
-export * from './contracSlice';
+export * from './contractSlice';
 export * from './thunks';

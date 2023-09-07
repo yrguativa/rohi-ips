@@ -1,14 +1,14 @@
-import { collection, getDocs,  where, query } from 'firebase/firestore/lite';
+import { collection, getDocs, where, query } from 'firebase/firestore/lite';
 
 import { FirebaseDB } from '../firebase/config';
-import { Contract, Patient, Payment, StatusEnum } from '../models/interfaces/IContractState';
+import { Contract, Patient, Payment } from '../models/interfaces/IContractState';
 
 export const getContract = async (uid = '') => {
     if (!uid) throw new Error('El UID del usuario no existe');
 
     let contract: Contract;
-    const contractRef = collection(FirebaseDB, "Contracts",);
-    const q = query(contractRef, where("User", "==", uid), where("Status", "==", StatusEnum.Active))//, orderBy('Number', 'desc'));
+    const contractRef = collection(FirebaseDB, "Contracts");
+    const q = query(contractRef, where("User", "==", uid))//, orderBy('Number', 'desc'));
     const contactsSnap = await getDocs(q);
 
     if (contactsSnap.size > 0) {
@@ -34,7 +34,6 @@ export const getContract = async (uid = '') => {
 
             contract.Payments.push(payment);
         });
-        console.log(contract)
 
         return contract;
     } else {

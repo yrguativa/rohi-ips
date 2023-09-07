@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from './hooks/hooks'
+import { useAppDispatch } from './hooks/hooks'
 
 import { AppRouter } from './router/AppRouter'
 import Navbar from './Shared/Navbar/Navbar'
@@ -12,22 +12,18 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    onAuthStateChanged(FirebaseAuth, async (user) => {    
+    onAuthStateChanged(FirebaseAuth, async (user) => {
       dispatch(thunkCheckedLogin(user));
     })
-  },[dispatch]);
+  }, [dispatch]);
 
   return (
-    <>
-      <div className="flex h-screen overflow-hidden">
-        <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-          <Navbar></Navbar>
-          <main>
-            <AppRouter />
-          </main>
-        </div>
-      </div>
-    </>
+    <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+      <Navbar></Navbar>
+      <main>
+        <AppRouter />
+      </main>
+    </div>
   )
 }
 

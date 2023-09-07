@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IContractState, PaymentStatusEnum } from '../../../models/interfaces/IContractState';
+import { IContractState } from '../../../models/interfaces/IContractState';
+import { PaymentStatusEnum } from '../../../models/enums';
 
 const initialState: IContractState = {
     Contract: undefined,

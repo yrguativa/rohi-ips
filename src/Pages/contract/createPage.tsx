@@ -1,8 +1,9 @@
 import { useForm, SubmitHandler } from "react-hook-form"
-import { StatusEnum } from '../../models/interfaces/IContractState';
+
 import { useState } from "react";
 import PatientsCreatePage from "../patients/createPage";
 import ListPatients from "../patients/listPage";
+import { StatusEnum } from "../../models/enums";
 
 type FormContract = {
     Number: number;

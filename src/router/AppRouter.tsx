@@ -3,26 +3,29 @@ import { useAppSelector } from '../hooks/hooks';
 
 import RegisterPage from '../Pages/auth/registerPage';
 import LoginPage from '../Pages/auth/loginPage';
-import ClientHome from '../Pages/clientHome/ClientHome';
 import ContractCreatePage from '../Pages/contract/createPage';
+import UserHomePage from '../Pages/userHome/userHomePage';
+import ClientHomePage from '../Pages/clientHome/clientHomePage';
 
 export const AppRouter = () => {
-    const { status } = useAppSelector(state => state.userAuth);
+    const { status } = useAppSelector(state => state.userAuthState);
 
     return (
         <Routes>
             {
                 (status === 'authenticated')
-                    ? <Route path="/*" element={<ClientHome />} />
-                    : <Route path="/auth/*" element={<LoginPage />} />
+                    ? <Route path="/*" element={<ClientHomePage />} />
+                    : <Route path="/auth/" element={<LoginPage />} />
             }
 
             <Route path='/*' element={<Navigate to='/home/*' />} />
 
             {/* Login y Registro */}
-            <Route path="/auth/*" element={<LoginPage />} />
+            <Route path="/auth/" element={<LoginPage />} />
             <Route path="/auth/register" element={<RegisterPage />} />
-            <Route path="/" element={<ClientHome />} />
+            <Route path="/" element={<ClientHomePage />} />
+
+            <Route path="/user/" element={<UserHomePage />} />
             
             <Route path="/contract/" element={<ContractCreatePage />} />
             {/* JournalApp */}

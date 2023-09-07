@@ -1,11 +1,11 @@
 
 import { Action, ThunkAction } from "@reduxjs/toolkit";
-import { singInWithGoogle } from "../../../firebase/providersAuth";
+import { registerUserWithEmailPassword, singInWithGoogle } from "../../../firebase/providersAuth";
 import { User } from "firebase/auth";
 
 import { RootState } from "../..";
 import { checkingCredentials, login, logout } from ".";
-import { IUserAuthState } from "../../../models/interfaces/IUserAuth";
+import { IUserAuthState, IUserRegisterAuth } from "../../../models/interfaces/IUserAuth";
 
 export const thunkLogin = (email: string, password: string): ThunkAction<void, RootState, unknown, Action> =>
     async dispatch => {
@@ -15,6 +15,28 @@ export const thunkLogin = (email: string, password: string): ThunkAction<void, R
         dispatch(checkingCredentials)
     }
 
+export const thunkRegister = (user: IUserRegisterAuth): ThunkAction<void, RootState, unknown, Action> =>
+    async dispatch => {
+        dispatch(checkingCredentials());
+
+        const result = await registerUserWithEmailPassword(user);
+        if (!result.ok) {
+            return dispatch(logout({
+                errorMessage: result.errorMessage
+            } as IUserAuthState));
+        }
+
+        const state: IUserAuthState = {
+            status: undefined,
+            uid: result.uid,
+            email: result.email,
+            displayName: result.displayName,
+            photoURL: result.photoURL
+        };
+
+        dispatch(login(state))
+    }
+    
 export const thunkSignInGoogle = (): ThunkAction<void, RootState, unknown, Action> =>
     async dispatch => {
         dispatch(checkingCredentials)

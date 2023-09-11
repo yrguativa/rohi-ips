@@ -1,6 +1,4 @@
-
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IContractState, Patient, PaymentStatusEnum, StatusEnum } from '../../../models/interfaces/IContractState';
 
 interface UIState {
     Loading: boolean
@@ -8,7 +6,7 @@ interface UIState {
 }
 const initialState: UIState = {
     Loading: false,
-    DarkMode:false
+    DarkMode: false
 };
 
 export const uiSlice = createSlice({
@@ -20,11 +18,9 @@ export const uiSlice = createSlice({
 
             state.Loading = payload;
         },
-        darkModeToggle: (state, action: PayloadAction<boolean>) => {
-            const { payload } = action;
-
-            state.DarkMode = payload;
-        },  
+        darkModeToggle: (state) => {
+            state.DarkMode = !state.DarkMode;
+        },
     }
 });
 

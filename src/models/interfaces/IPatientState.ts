@@ -8,5 +8,5 @@ export interface Patient {
     Address: string;
     Type: number;
     Status: number;
-    Contract : number;
+    Contract?: number;
 }

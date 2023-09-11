@@ -12,6 +12,5 @@ export const thunkLoadContract = (): ThunkAction<void, RootState, unknown, Actio
         if (!currentUser) return;
         const contract = await getContract(currentUser.uid!)
 
-        console.log(contract)
-        dispatch(loadContract({ Contract: contract, StatusPayment: PaymentStatusEnum.None }))
+        dispatch(loadContract({ Contract: contract, StatusPayment: PaymentStatusEnum.Pending }))
     }

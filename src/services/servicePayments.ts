@@ -1,8 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 import { IMercadoPagoResponse } from '../models/interfaces/IMercadoPago';
+import { STATUS_RESPONSE_FAILURE, STATUS_RESPONSE_PENDING, STATUS_RESPONSE_SUCCESS } from '../models/enums';
 
 const accessToken = 'TEST-510079169950085-090518-9769b59baabead9c751e5994dff07ee8-1465594705';
-
+const urlBaseResponse = `https://receipt-drag-cage-papua.trycloudflare.com/ResponsePayment`;
 
 export async function CreatedOrder(idPayment: string, idClient: string, nameClient: string, paymentValue: number, month: string): Promise<IMercadoPagoResponse> {
     const orderData = {
@@ -10,9 +11,9 @@ export async function CreatedOrder(idPayment: string, idClient: string, nameClie
         site_id: "MCO",
         notification_url: "https://e720-190-237-16-208.sa.ngrok.io/webhook",
         back_urls: {
-            success: "http://localhost:3000/success",
-            // pending: "https://e720-190-237-16-208.sa.ngrok.io/pending",
-            // failure: "https://e720-190-237-16-208.sa.ngrok.io/failure",
+            success: `${urlBaseResponse}/${idPayment}/${STATUS_RESPONSE_SUCCESS}`,
+            pending: `${urlBaseResponse}/${idPayment}/${STATUS_RESPONSE_PENDING}`,
+            failure: `${urlBaseResponse}/${idPayment}/${STATUS_RESPONSE_FAILURE}`,
         },
         external_reference: uuidv4() + '#' + idPayment,
         items: [
@@ -45,29 +46,3 @@ export async function CreatedOrder(idPayment: string, idClient: string, nameClie
 
     return responseBody;
 }
-
-/*
-export async function CreatedOrder2(idPayment: string, idClient: string, nameClient: string, paymentValue: number, month: string) {
-
-
-
-    const result = await mercadopage.preferences.create({
-        items: [
-            {
-                title: "Laptop",
-                unit_price: 5,
-                currency_id: "COP",
-                quantity: 1,
-            },
-        ],
-        notification_url: "https://e720-190-237-16-208.sa.ngrok.io/webhook",
-        back_urls: {
-            success: "http://localhost:3000/success",
-            // pending: "https://e720-190-237-16-208.sa.ngrok.io/pending",
-            // failure: "https://e720-190-237-16-208.sa.ngrok.io/failure",
-        },
-    });
-
-    console.log(result);
-}*/
-

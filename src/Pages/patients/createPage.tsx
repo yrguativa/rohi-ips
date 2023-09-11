@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form"
-import { Patient, StatusEnum } from '../../models/interfaces/IContractState';
 import { useAppDispatch } from "../../hooks/hooks";
 import { createPatient } from "../../store/slices/contract";
+import { Patient } from "../../models/interfaces";
+import { StatusEnum } from "../../models/enums";
 
 type FormPatient = {
     Identification: string;

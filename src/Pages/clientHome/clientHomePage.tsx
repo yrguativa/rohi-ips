@@ -1,8 +1,11 @@
 import { useEffect } from "react";
+import humanize from 'humanize';
+
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { thunkPayment } from "../../store/slices/client";
 import { thunkLoadContract } from "../../store/slices/contract";
-import { StatusEnum } from "../../models/enums";
+import { PaymentStatusEnum, StatusEnum } from "../../models/enums";
+
 
 export default function ClientHomePage() {
     const dispatch = useAppDispatch();
@@ -18,7 +21,7 @@ export default function ClientHomePage() {
 
     return (
         <div
-            className="rounded-sm border border-stroke bg-white p-4 shadow-default m-10  md:p-6 xl:p-9">
+            className="rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-boxdark m-10  md:p-6 xl:p-9">
             <div className="flex flex-col gap-7.5">
                 {Contract?.Status == StatusEnum.Disabled && (<div className="flex w-full border-l-6 border-warning bg-warning bg-opacity-[15%] dark:bg-[#1B1B24] px-7 py-8 shadow-md dark:bg-opacity-30 md:p-9">
                     <div className="mr-5 flex h-9 w-9 items-center justify-center rounded-lg bg-warning bg-opacity-30">
@@ -42,7 +45,7 @@ export default function ClientHomePage() {
                 <div className="flex flex-col">
                     <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
                         <div className="p-2.5 xl:p-5">
-                            <h5 className="text-sm font-medium uppercase xsm:text-base">Fecha de pago</h5>
+                            <h5 className="text-sm font-medium uppercase xsm:text-base">Fecha de pago oportuno</h5>
                         </div>
                         <div className="p-2.5 text-center xl:p-5">
                             <h5 className="text-sm font-medium uppercase xsm:text-base">Valor</h5>
@@ -53,26 +56,41 @@ export default function ClientHomePage() {
                     </div>
 
                     {
-                        Contract && Contract?.Payments.map(payment => (
+                        Contract && Contract?.Payments?.map(payment => (
                             <div key={payment.Id} className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
                                 <div className="flex items-center justify-center p-2.5 xl:p-5">
-                                    <p className="font-medium text-black dark:text-white">{payment.InvoiceDate.nanoseconds}</p>
-                                </div>
-
-                                <div className="flex items-center justify-center p-2.5 xl:p-5">
-                                    <p className="font-medium text-meta-3">${payment.Rate}</p>
-                                </div>
-                                <div className="flex items-center justify-center p-2.5 xl:p-5">
-                                    <p className="inline-flex rounded-full bg-warning bg-opacity-10 py-1 px-3 text-sm font-medium text-warning">
-                                        Pending
+                                    <p className="font-medium text-black dark:text-white">
+                                        {/* {humanize.date('Y-m-d', (new Date(payment.InvoiceDate)))} */}
+                                        {
+                                            humanize.naturalDay(payment.InvoiceDate! / 1000)
+                                        }
                                     </p>
                                 </div>
-
-                                <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-                                    <button onClick={() => paymentContract(payment.Id)} className="inline-flex items-center justify-center rounded-md border border-meta-3 py-4 px-10 text-center font-medium text-meta-3 hover:bg-opacity-90 lg:px-8 xl:px-10" type="button">
-                                        Pagar
-                                    </button>
+                                <div className="flex items-center justify-center p-2.5 xl:p-5">
+                                    <p className="font-medium text-meta-3">$ {humanize.numberFormat(payment.Rate, 0)}</p>
                                 </div>
+                                <div className="flex items-center justify-center p-2.5 xl:p-5">
+                                    {
+                                        payment.Status === PaymentStatusEnum.Approved ? (
+                                            <p className="inline-flex rounded-full bg-success bg-opacity-10 py-1 px-3 text-sm font-medium text-success">
+                                                Pago Realizado
+                                            </p>
+                                        ) : (
+                                            <p className="inline-flex rounded-full bg-warning bg-opacity-10 py-1 px-3 text-sm font-medium text-warning">
+                                                Pendiente de pago
+                                            </p>
+                                        )
+                                    }
+                                </div>
+                                {
+                                    payment.Status !== PaymentStatusEnum.Approved && (
+                                        <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+                                            <button onClick={() => paymentContract(payment.Id!)} className="inline-flex items-center justify-center rounded-md border border-meta-3 py-4 px-10 text-center font-medium text-meta-3 hover:bg-opacity-90 lg:px-8 xl:px-10" type="button">
+                                                Pagar
+                                            </button>
+                                        </div>
+                                    )
+                                }
                             </div>
                         ))
                     }

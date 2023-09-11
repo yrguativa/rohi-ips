@@ -1,28 +1,26 @@
+import { PaymentStatusEnum, StatusEnum } from "../enums";
 import { Patient } from "./IPatientState";
 
 export interface IContractState {
     Contract?: Contract
     PaymentURL?: string,
-    StatusPayment:number,
+    StatusPayment: PaymentStatusEnum,
 }
 
 export interface Contract {
     Number?: string;
+    Status: StatusEnum;
     Rate?: number;
-    DateEnd?: DateEnd;
-    DateStart?: DateEnd;
-    Patients: Patient[];
-    Payments: Payment[];
-    Status: number;
+    DateEnd?: number;
+    DateStart?: number;
+    Patients?: Patient[];
+    Payments?: Payment[];
 }
 
 export interface Payment {
-    Id: string;
+    Id?: string;
     Rate: number;
-    InvoiceDate: DateEnd;
-}
-
-interface DateEnd {
-    seconds: number;
-    nanoseconds: number;
+    InvoiceDate: number;
+    Status: PaymentStatusEnum;
+    PaymentDate?: number;
 }

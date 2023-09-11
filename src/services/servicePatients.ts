@@ -1,7 +1,7 @@
 import { collection, getDocs, query, where } from "firebase/firestore/lite";
 import { FirebaseDB } from "../firebase/config";
 import { StatusEnum } from "../models/enums";
-import { Patient } from "../models/interfaces/IContractState";
+import { Patient } from "../models/interfaces";
 
 export const getPatients = async () => {
     const patients: Patient[] = [];

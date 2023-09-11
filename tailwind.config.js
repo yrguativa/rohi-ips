@@ -5,6 +5,7 @@ export default {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     fontFamily: {
       satoshi: ['Satoshi', 'sans-serif'],

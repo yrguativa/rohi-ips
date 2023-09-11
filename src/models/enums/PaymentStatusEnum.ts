@@ -1,5 +1,6 @@
 export enum PaymentStatusEnum {
-    None = 1,
+    Pending = 1,
     Process,
+    Approved,
     Error,
 }

@@ -13,9 +13,8 @@ export default function UserHomePage() {
 
     return (
         <div
-            className="rounded-sm border border-stroke bg-white p-4 shadow-default m-10  md:p-6 xl:p-9">
+            className="rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-boxdark m-10  md:p-6 xl:p-9">
             <div className="flex flex-col gap-7.5">
-
                 <div className="flex flex-col">
                     <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
                         <div className="p-2.5 xl:p-5">
@@ -36,25 +35,25 @@ export default function UserHomePage() {
                     </div>
 
                     {
-                        Patients.map(payment => (
-                            <div key={payment.Identification} className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
+                        Patients.map(patient => (
+                            <div key={patient.Identification} className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
                                 <div className="flex items-center justify-center p-2.5 xl:p-5">
-                                    <p className="font-medium text-black dark:text-white">{payment.Identification}</p>
+                                    <p className="font-medium text-black dark:text-white">{patient.Identification}</p>
                                 </div>
 
                                 <div className="flex items-center justify-center p-2.5 xl:p-5">
-                                    <p className="font-medium text-black dark:text-white">{payment.Name}</p>
+                                    <p className="font-medium text-black dark:text-white">{patient.Name}</p>
                                 </div>
 
                                 <div className="flex items-center justify-center p-2.5 xl:p-5">
-                                    <p className="font-medium text-black">{payment.Address}</p>
+                                    <p className="font-medium text-black dark:text-white">{patient.Address}</p>
                                 </div>
                                 <div className="flex items-center justify-center p-2.5 xl:p-5">
-                                    <p className="font-medium text-black">{payment.Contract}</p>
+                                    <p className="font-medium text-black dark:text-white">{patient.Contract}</p>
                                 </div>
                                 <div className="flex items-center justify-center p-2.5 xl:p-5">
                                     {
-                                        payment.Status === StatusEnum.Active ? (
+                                        patient.Status === StatusEnum.Active ? (
                                             <p className="inline-flex rounded-full bg-success bg-opacity-10 py-1 px-3 text-sm font-medium text-success">
                                                 Activo
                                             </p>
@@ -64,10 +63,6 @@ export default function UserHomePage() {
                                             </p>
                                         )
                                     }
-                                </div>
-
-                                <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-
                                 </div>
                             </div>
                         ))

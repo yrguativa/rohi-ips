@@ -1,6 +1,6 @@
 
 import { Action, ThunkAction } from "@reduxjs/toolkit";
-import { registerUserWithEmailPassword, singInWithGoogle } from "../../../firebase/providersAuth";
+import { logoutFirebase, registerUserWithEmailPassword, singInWithGoogle } from "../../../firebase/providersAuth";
 import { User } from "firebase/auth";
 
 import { RootState } from "../..";
@@ -36,7 +36,7 @@ export const thunkRegister = (user: IUserRegisterAuth): ThunkAction<void, RootSt
 
         dispatch(login(state))
     }
-    
+
 export const thunkSignInGoogle = (): ThunkAction<void, RootState, unknown, Action> =>
     async dispatch => {
         dispatch(checkingCredentials)
@@ -74,4 +74,10 @@ export const thunkCheckedLogin = (user?: User | null): ThunkAction<void, RootSta
             photoURL: user.photoURL
         };
         dispatch(login(state));
+    }
+
+export const thunkLogout = (): ThunkAction<void, RootState, unknown, Action> =>
+    async dispatch => {
+        await logoutFirebase();
+        dispatch(logout({ errorMessage: undefined } as IUserAuthState));
     }

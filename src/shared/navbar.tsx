@@ -1,18 +1,24 @@
 import { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { darkModeToggle } from '../store/slices/ui/uiSlice';
-import { NavLink } from 'react-router-dom';
+import { thunkLogout } from '../store/slices/auth';
 
 // import viteLogo from '/vite.svg'
 
 export default function Navbar() {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const { userAuthState: { displayName, email, photoURL }, uiState: { DarkMode } } = useAppSelector(state => state);
 
     const [sidebarToggle, setSidebarToggle] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
+    const logoutHandler = () => {
+        dispatch(thunkLogout());
+        navigate("/auth/login");
+    }
     return (
         <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
             <div className="flex flex-grow items-center justify-between py-4 px-4 shadow-2 md:px-6 2xl:px-11">
@@ -48,13 +54,12 @@ export default function Navbar() {
                         </span >
                     </button >
 
-                    <a className="block flex-shrink-0 lg:hidden" href="index.html">
+                    <NavLink to="/" className="block flex-shrink-0 lg:hidden">
                         <img decoding="async" width="52px"
                             src="https://rohiips.com/wp-content/uploads/2021/10/Logo.png"
-                            alt="Logo ROHI IPS SAS"
-                        />
-                    </a>
-                </div >
+                            alt="Logo ROHI IPS SAS" />
+                    </NavLink>
+                </div>
 
                 <div className="hidden sm:block">
                     <form action="https://formbold.com/s/unique_form_id" method="POST">
@@ -136,7 +141,7 @@ export default function Navbar() {
                         {dropdownOpen && (
                             <div x-show="dropdownOpen"
                                 className="absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                                <ul className={"flex flex-col gap-5 border-b border-stroke px-6 py-7.5 "
+                                {/* <ul className={"flex flex-col gap-5 border-b border-stroke px-6 py-7.5 "
                                     + (DarkMode && '')}>
                                     <li>
                                         <a href="profile.html"
@@ -180,8 +185,8 @@ export default function Navbar() {
                                             Account Settings
                                         </a>
                                     </li>
-                                </ul>
-                                <NavLink to='/auth/'
+                                </ul> */}
+                                <button onClick={logoutHandler}
                                     className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
                                     <svg className="fill-current" width="22" height="22" viewBox="0 0 22 22" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -193,7 +198,7 @@ export default function Navbar() {
                                             fill="" />
                                     </svg>
                                     Log Out
-                                </NavLink>
+                                </button>
                             </div>
                         )}
 

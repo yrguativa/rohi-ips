@@ -3,10 +3,10 @@ export interface IPatientState {
 }
 
 export interface Patient {
-    Identification: string;
+    Identification?: string;
     Name: string;
     Address: string;
     Type: number;
     Status: number;
-    Contract?: number;
+    Contract?: string;
 }

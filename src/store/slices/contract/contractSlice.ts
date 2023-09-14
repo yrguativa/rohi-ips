@@ -1,14 +1,13 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { PaymentStatusEnum, StatusEnum } from '../../../models/enums';
-import { IContractState, Patient } from '../../../models/interfaces';
+import { IContractState } from '../../../models/interfaces';
 
 const initialState: IContractState = {
     Contract: {
-        Patients: [],
         Payments: [],
         Status: StatusEnum.Disabled
     },
-    StatusPayment: PaymentStatusEnum.None
+    StatusPayment: PaymentStatusEnum.Pending
 };
 
 export const contractSlice = createSlice({
@@ -24,14 +23,9 @@ export const contractSlice = createSlice({
             const { payload } = action;
 
             state.Contract = payload.Contract;
-        },
-        createPatient: (state, action: PayloadAction<Patient>) => {
-            const { payload } = action;
-
-            state.Contract!.Patients = [...state.Contract!.Patients, payload];
-        },
+        }
     }
 });
 
 // Action creators are generated for each case reducer function
-export const { loadContract, createContract, createPatient } = contractSlice.actions;
+export const { loadContract, createContract } = contractSlice.actions;

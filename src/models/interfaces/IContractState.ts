@@ -1,5 +1,4 @@
 import { PaymentStatusEnum, StatusEnum } from "../enums";
-import { Patient } from "./IPatientState";
 
 export interface IContractState {
     Contract?: Contract
@@ -13,8 +12,8 @@ export interface Contract {
     Rate?: number;
     DateEnd?: number;
     DateStart?: number;
-    Patients?: Patient[];
     Payments?: Payment[];
+    UserCreated?: string;
 }
 
 export interface Payment {

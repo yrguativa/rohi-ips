@@ -1,4 +1,4 @@
-import { collection, getDocs, query, where } from "firebase/firestore/lite";
+import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore/lite";
 import { FirebaseDB } from "../firebase/config";
 import { StatusEnum } from "../models/enums";
 import { Patient } from "../models/interfaces";
@@ -14,6 +14,19 @@ export const getPatients = async () => {
         patient.Identification = doc.id;
 
         patients.push(patient);
+    });
+
+    return patients;
+}
+
+export const postPatients = async (patients: Patient[]) => {
+    patients.forEach(async (patient) => {
+        const id = patient.Identification!;
+        const patientSave = { ...patient };
+        delete patientSave.Identification;
+
+        const docRef = doc(FirebaseDB, 'Patients', id);
+        await setDoc(docRef, patientSave, { merge: true });
     });
 
     return patients;

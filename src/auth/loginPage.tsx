@@ -22,7 +22,6 @@ export default function LoginPage() {
     return (
         <div className="flex h-screen overflow-hidden ">
             <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-
                 <main>
                     <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
                         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -30,7 +29,7 @@ export default function LoginPage() {
                                 <div className="hidden w-full xl:block xl:w-1/2">
                                     <div className="py-17.5 px-26 text-center">
                                         <NavLink to="/" className="mb-5.5 inline-block">
-                                            <img decoding="async" width="140rem"
+                                            <img decoding="async" width="220rem"
                                                 src="https://rohiips.com/wp-content/uploads/2021/10/Logo.png"
                                                 alt="Logo ROHI IPS SAS"
                                             />

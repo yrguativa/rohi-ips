@@ -4,8 +4,14 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { darkModeToggle } from '../store/slices/ui/uiSlice';
 import { thunkLogout } from '../store/slices/auth';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { thunkLoadPatientsById } from '../store/slices/patient';
 
 // import viteLogo from '/vite.svg'
+import { thunkLoadPatientsByName } from '../store/slices/patient/thunks';
+type SearchContract = {
+    textSearch: string;
+};
 
 export default function Navbar() {
     const dispatch = useAppDispatch();
@@ -14,6 +20,20 @@ export default function Navbar() {
 
     const [sidebarToggle, setSidebarToggle] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    const { register, handleSubmit } = useForm<SearchContract>();
+
+    const onSubmit: SubmitHandler<SearchContract> = data => {
+        const { textSearch } = data;
+        if (!textSearch || textSearch == null || textSearch == undefined || textSearch.trim() === '' || textSearch.length == 1) return
+
+        if (!isNaN(parseInt(textSearch))) {
+            dispatch(thunkLoadPatientsById(textSearch))
+        } else {
+            dispatch(thunkLoadPatientsByName(textSearch))
+        }
+        navigate("/user");
+    }
 
     const logoutHandler = () => {
         dispatch(thunkLogout());
@@ -62,9 +82,9 @@ export default function Navbar() {
                 </div>
 
                 <div className="hidden sm:block">
-                    <form action="https://formbold.com/s/unique_form_id" method="POST">
+                    <form onSubmit={handleSubmit(onSubmit)} >
                         <div className="relative">
-                            <button className="absolute top-1/2 left-0 -translate-y-1/2">
+                            <button type="submit" className="absolute top-1/2 left-0 -translate-y-1/2">
                                 <svg width="20" height="20" className="fill-body hover:fill-primary dark:fill-bodydark dark:hover:fill-primary"
                                     viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -77,7 +97,8 @@ export default function Navbar() {
                             </button>
 
                             <input type="text" placeholder="Escribe para buscar..."
-                                className="w-full bg-transparent pr-4 pl-9 focus:outline-none" />
+                                className="w-full bg-transparent pr-4 pl-9 focus:outline-none"
+                                {...register("textSearch")} />
                         </div>
                     </form>
                 </div>

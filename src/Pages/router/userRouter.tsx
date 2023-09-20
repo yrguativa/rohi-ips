@@ -6,7 +6,8 @@ import UserHomePage from "../userHome/userHomePage"
 import Sidebar from "../../shared/sidebar"
 import Navbar from "../../shared/navbar"
 import { useAppSelector } from "../../hooks/hooks"
-import { AuthRouter } from "../../auth/router/authrouter"
+import { AuthRouter } from "../../auth/router/authRouter"
+
 
 export const UserRouter = () => {
     const { uiState: { DarkMode } } = useAppSelector(state => state);

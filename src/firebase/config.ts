@@ -4,28 +4,16 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore/lite';
 import { getEnvironments } from '../helpers/getEnviroments';
 
-
-const { FBASE_APIKEY, FBASE_AUTHDOMAIN, FBASE_DATABASEURL, FBASE_PROJECTID, FBASE_STORAGEBUCKET, FBASE_MESSAGINGSENDERID, FBASE_APPID, } = getEnvironments();
-
-console.log("FBASE_APIKEY", FBASE_APIKEY)
-// const firebaseConfig = {
-//     apiKey: FBASE_APIKEY,
-//     authDomain: FBASE_AUTHDOMAIN,
-//     databaseURL: FBASE_DATABASEURL,
-//     projectId: FBASE_PROJECTID,
-//     storageBucket: FBASE_STORAGEBUCKET,
-//     messagingSenderId: FBASE_MESSAGINGSENDERID,
-//     appId: FBASE_APPID,
-// };
+const { VITE_FBASE_APIKEY, VITE_FBASE_AUTHDOMAIN, VITE_FBASE_DATABASEURL, VITE_FBASE_PROJECTID, VITE_FBASE_STORAGEBUCKET, VITE_FBASE_MESSAGINGSENDERID, VITE_FBASE_APPID, } = getEnvironments();
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCM5Ac7VYCcb69bGfhzIb6Rx-vbnujRFao",
-    authDomain: "rohi-63590.firebaseapp.com",
-    projectId: "rohi-63590",
-    storageBucket: "rohi-63590.appspot.com",
-    messagingSenderId: "934952248250",
-    appId: "1:934952248250:web:1dde1e2bb2c6ae84327383",
-    measurementId: "G-0BB2E9KZ68"
+    apiKey: VITE_FBASE_APIKEY,
+    authDomain: VITE_FBASE_AUTHDOMAIN,
+    databaseURL: VITE_FBASE_DATABASEURL,
+    projectId: VITE_FBASE_PROJECTID,
+    storageBucket: VITE_FBASE_STORAGEBUCKET,
+    messagingSenderId: VITE_FBASE_MESSAGINGSENDERID,
+    appId: VITE_FBASE_APPID,
 };
 
 // Initialize Firebase

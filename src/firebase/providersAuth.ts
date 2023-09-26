@@ -34,8 +34,6 @@ export const registerUserWithEmailPassword = async ({ email, password, displayNa
     try {
         const resp = await createUserWithEmailAndPassword(FirebaseAuth, email, password);
         const { uid, photoURL } = resp.user;
-        console.log("🚀 ~ file: providersAuth.ts:37 ~ registerUserWithEmailPassword ~ resp:", resp)
-        console.log("🚀 ~ file: providersAuth.ts:37 ~ registerUserWithEmailPassword ~ resp.user:", resp.user)
 
         await updateProfile(FirebaseAuth.currentUser!, { displayName });
 
@@ -47,9 +45,10 @@ export const registerUserWithEmailPassword = async ({ email, password, displayNa
         if (isAdmin) {
             customClaims = { ...customClaims, isAdmin: true }
         }
-        console.log("🚀 ~ file: providersAuth.ts:43 ~ registerUserWithEmailPassword ~ customClaims:", customClaims)
 
-        await setDoc(doc(FirebaseDB, "Users", uid), { roles: customClaims });
+        if (isRadioUser || isAdmin) {
+            await setDoc(doc(FirebaseDB, "Users", uid), { roles: customClaims });
+        }
 
         return {
             ok: true,

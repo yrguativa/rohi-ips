@@ -4,7 +4,7 @@ import { PaymentStatusEnum } from '../../../models/enums';
 
 const initialState: IContractState = {
     Contract: undefined,
-    StatusPayment: PaymentStatusEnum.None
+    StatusPayment: PaymentStatusEnum.Pending
 };
 
 export const clientSlice = createSlice({

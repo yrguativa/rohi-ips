@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 
 import ClientHomePage from "../clientHome/clientHomePage"
-import ContractCreatePage from "../contract/createPage"
+import ContractCreatePage from "../contract/contractCreatePage"
 import UserHomePage from "../userHome/userHomePage"
 import Sidebar from "../../shared/sidebar"
 import Navbar from "../../shared/navbar"

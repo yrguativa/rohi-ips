@@ -2082,11 +2082,6 @@ http-parser-js@>=0.5.1:
   resolved "https://registry.npmjs.org/http-parser-js/-/http-parser-js-0.5.8.tgz"
   integrity sha512-SGeBX54F94Wgu5RH3X5jsDtf4eHyRogWX1XGT3b4HuW3tQPM4AaBzoUji/4AAJNXCEOWZ5O0DgZmJw1947gD5Q==
 
-humanize@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.npmjs.org/humanize/-/humanize-0.0.9.tgz"
-  integrity sha512-bvZZ7vXpr1RKoImjuQ45hJb5OvE2oJafHysiD/AL3nkqTZH2hFCjQ3YZfCd63FefDitbJze/ispUPP0gfDsT2Q==
-
 idb@7.0.1:
   version "7.0.1"
   resolved "https://registry.npmjs.org/idb/-/idb-7.0.1.tgz"

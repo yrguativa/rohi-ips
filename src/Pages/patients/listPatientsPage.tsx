@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { removePatientSave } from "../../store/slices/patient";
 
 
-export default function ListPatients() {
+export default function ListPatientsPage() {
     const { Patients } = useAppSelector(state => state.patientSaveState);
     const dispatch = useAppDispatch();
 

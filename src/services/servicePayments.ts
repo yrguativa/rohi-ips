@@ -3,7 +3,7 @@ import { IMercadoPagoResponse } from '../models/interfaces/IMercadoPago';
 import { STATUS_RESPONSE_FAILURE, STATUS_RESPONSE_PENDING, STATUS_RESPONSE_SUCCESS } from '../models/enums';
 
 const accessToken = 'TEST-510079169950085-090518-9769b59baabead9c751e5994dff07ee8-1465594705';
-const urlBaseResponse = `https://receipt-drag-cage-papua.trycloudflare.com/ResponsePayment`;
+const urlBaseResponse = `https://yrguativa.github.io/rohi-ips/ResponsePayment`;
 
 export async function CreatedOrder(idPayment: string, idClient: string, nameClient: string, paymentValue: number, month: string): Promise<IMercadoPagoResponse> {
     const orderData = {

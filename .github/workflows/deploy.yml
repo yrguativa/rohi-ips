@@ -36,7 +36,9 @@ jobs:
           node-version: 18
           cache: 'npm'
       - name: Install dependencies
-        run: npm install
+        run: npm install        
+      - name: Build
+        run: npm run build
         env:
           VITE_FBASE_APIKEY: ${{ secrets.VITE_FBASE_APIKEY }}
           VITE_FBASE_AUTHDOMAIN: ${{secrets.VITE_FBASE_AUTHDOMAIN}}
@@ -45,8 +47,6 @@ jobs:
           VITE_FBASE_MESSAGINGSENDERID: ${{secrets.VITE_FBASE_MESSAGINGSENDERID}}
           VITE_FBASE_APPID: ${{secrets.VITE_FBASE_APPID}}
           VITE_FBASE_DATABASEURL: ${{secrets.VITE_FBASE_DATABASEURL}}
-      - name: Build
-        run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact

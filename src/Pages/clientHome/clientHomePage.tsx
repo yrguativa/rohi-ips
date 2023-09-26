@@ -36,7 +36,7 @@ export default function ClientHomePage() {
                             Cuenta Inactiva
                         </h5>
                         <p className="leading-relaxed text-[#D0915C]">
-                            No se ha reportado el pago de Home ROHI, es necesario realizar el pagao para volver a tener tus servicios activos
+                            No se ha reportado el pago de Home ROHI, es necesario realizar el pago para volver a tener tus servicios activos
                         </p>
                     </div>
                 </div>)}

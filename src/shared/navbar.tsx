@@ -25,7 +25,9 @@ export default function Navbar() {
 
     const onSubmit: SubmitHandler<SearchContract> = data => {
         const { textSearch } = data;
-        if (!textSearch || textSearch == null || textSearch == undefined || textSearch.trim() === '' || textSearch.length == 1) return
+        if (!textSearch || textSearch == null || textSearch == undefined || textSearch.trim() === '' || textSearch.length < 1) {
+            return;
+        }
 
         if (!isNaN(parseInt(textSearch))) {
             dispatch(thunkLoadPatientsById(textSearch))

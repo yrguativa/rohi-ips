@@ -5,7 +5,7 @@ import { RootState } from "../.."
 import { updateStatusPayment, urlPayment } from "."
 import { CreatedOrder } from "../../../services/servicePayments"
 import { PaymentStatusEnum, StatusEnum } from "../../../models/enums"
-import { ApplyPayment, getContract } from "../../../services"
+import { ApplyPayment, getContractByEmail } from "../../../services"
 import { getCurrentUser } from "../../../firebase/providersAuth"
 
 
@@ -30,7 +30,7 @@ export const thunkPaymentApply = (idPayment: string): ThunkAction<void, RootStat
         const currentUser = getCurrentUser() ?? undefined;
         if (!currentUser) return;
 
-        const contract = await getContract(currentUser.uid!)
+        const contract = await getContractByEmail(currentUser.email!)
         const payment = contract?.Payments?.find(p => p.Id == idPayment);
         if (!contract?.Number) throw new Error('Contract not found in store');
         if (!payment) throw new Error('Payment not found in store');
@@ -48,7 +48,6 @@ export const thunkPaymentApply = (idPayment: string): ThunkAction<void, RootStat
             User: currentUser.uid
         };
         delete contractToFireStore.Number;
-        delete contractToFireStore.Patients;
         delete contractToFireStore.Payments;
 
         await ApplyPayment(contract!.Number!, contractToFireStore, payment.Id!, paymentToFireStore);

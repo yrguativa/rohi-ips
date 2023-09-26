@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form"
-import { useAppDispatch } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { thunkLogin, thunkSignInGoogle } from "../store/slices/auth";
 import { NavLink } from "react-router-dom";
 
@@ -10,12 +10,12 @@ type FormLogin = {
 //https://github.com/davidgrzyb/tailwind-auth-template/blob/master/login.html
 
 export default function LoginPage() {
+    const { uiState: { ErrorMessage } } = useAppSelector(state => state);
     const dispatch = useAppDispatch();
     const { register, handleSubmit, formState: { errors } } = useForm<FormLogin>();
 
     const loginGoogle = () => dispatch(thunkSignInGoogle());
     const onSubmit: SubmitHandler<FormLogin> = data => {
-        console.log(data);
         dispatch(thunkLogin(data.email, data.password));
     }
 
@@ -126,7 +126,7 @@ export default function LoginPage() {
                                 <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
                                     <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
                                         <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                                            Iniciar sesión
+                                            Registro
                                         </h2>
 
                                         <form onSubmit={handleSubmit(onSubmit)}>
@@ -196,9 +196,19 @@ export default function LoginPage() {
                                                 </div>
                                             </div>
                                             <div className="flex items-center justify-between">
+                                                {
+                                                    ErrorMessage && <span className="text-[#B45454] italic text-lg">{ErrorMessage}</span>
+                                                }
+                                            </div>
+                                            <div className="flex items-center justify-between">
                                                 <button type="submit" className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 font-medium text-white transition hover:bg-opacity-90" >
                                                     Ingresar
                                                 </button>
+                                            </div>
+                                            <div className="flex items-center justify-between mt-5">
+                                                <NavLink to="/auth/register" className='flex w-full items-center justify-center gap-3.5 font-medium rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-70 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-70'>
+                                                    Registar
+                                                </NavLink>
                                             </div>
                                             {/* <div className="mt-2 text-center">
                                     <a className="text-primary" href="#">
@@ -215,7 +225,7 @@ export default function LoginPage() {
                                                 <button onClick={loginGoogle} className="flex w-full items-center justify-center gap-3.5 font-medium rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-70 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-70" type="button">
                                                     <span>
                                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <g clip-path="url(#clip0_191_13499)">
+                                                            <g >
                                                                 <path
                                                                     d="M19.999 10.2217C20.0111 9.53428 19.9387 8.84788 19.7834 8.17737H10.2031V11.8884H15.8266C15.7201 12.5391 15.4804 13.162 15.1219 13.7195C14.7634 14.2771 14.2935 14.7578 13.7405 15.1328L13.7209 15.2571L16.7502 17.5568L16.96 17.5774C18.8873 15.8329 19.9986 13.2661 19.9986 10.2217"
                                                                     fill="#4285F4" />

@@ -5,10 +5,18 @@ export interface IUserAuthState {
     displayName?: string | undefined | null,
     photoURL?: string | undefined | null,
     errorMessage?: string | undefined | null,
+    roles?: IRolesAuth
 }
 
 export interface IUserRegisterAuth {
     email: string,
     password: string,
     displayName?: string,
+    isRadioUser?: boolean
+    isAdmin?: boolean
+}
+
+export interface IRolesAuth {
+    isRadioUser: boolean,
+    isAdmin: boolean
 }

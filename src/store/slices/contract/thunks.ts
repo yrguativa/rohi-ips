@@ -2,7 +2,7 @@
 import { Action, ThunkAction } from "@reduxjs/toolkit"
 import { getCurrentUser } from "../../../firebase/providersAuth"
 import { RootState } from "../.."
-import { postContract, getContract, postPatients } from "../../../services"
+import { postContract, getContractByEmail, postPatients } from "../../../services"
 import { loadContract } from "."
 import { PaymentStatusEnum } from "../../../models/enums"
 import { Contract, Patient } from "../../../models/interfaces"
@@ -12,7 +12,7 @@ export const thunkLoadContract = (): ThunkAction<void, RootState, unknown, Actio
     async (dispatch) => {
         const currentUser = getCurrentUser() ?? undefined;
         if (!currentUser) return;
-        const contract = await getContract(currentUser.uid!)
+        const contract = await getContractByEmail(currentUser.email!)
 
         dispatch(loadContract({ Contract: contract, StatusPayment: PaymentStatusEnum.Pending }))
     }

@@ -9,8 +9,7 @@ export const AppRouter = () => {
     const { status } = useAppSelector(state => state.userAuthState);
 
     return (
-        <Routes>
-            
+        <Routes>            
             {/* Response Pay MercadoPago*/}
             <Route path="/ResponsePayment/:idPayment/:statusResponse" element={<ResponsePaymentPage />} />
             

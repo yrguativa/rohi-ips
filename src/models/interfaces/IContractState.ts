@@ -8,6 +8,7 @@ export interface IContractState {
 
 export interface Contract {
     Number?: string;
+    Email?: string;
     Status: StatusEnum;
     Rate?: number;
     DateEnd?: number;

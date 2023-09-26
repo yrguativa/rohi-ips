@@ -10,6 +10,7 @@ import { useAppDispatch } from "../../hooks/hooks";
 
 type FormContract = {
     Number: number;
+    Email:string;
     Rate: number;
     Status: StatusEnum;
     DateStart: string;
@@ -39,6 +40,7 @@ export default function ContractCreatePage() {
             Number: data.Number.toString(),
             Status: data.Status,
             Rate: data.Rate,
+            Email: data.Email,
             DateStart: new Date(data.DateStart).getTime(),
             DateEnd: new Date(data.DateStart).getTime(),
             Payments: [{
@@ -71,10 +73,28 @@ export default function ContractCreatePage() {
                             <input id="Number" type="text" placeholder="Numero" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 + (errors.Number && " border-danger ")}
                                 {...register("Number", {
-                                    value: 1101,
+                                    value: 1102,
                                     required: {
                                         value: true,
                                         message: 'Número de contrato es requerido'
+                                    }
+                                })}>
+                            </input>
+                            {
+                                errors.Number && <p className="text-danger text-xs italic">{errors.Number.message}</p>
+                            }
+                        </div>
+                        <div className="mb-4">
+                            <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="username">
+                                Número de contrato
+                            </label>
+                            <input id="Email" type="email" placeholder="Email" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                + (errors.Email && " border-danger ")}
+                                {...register("Email", {
+                                    value: 'paola1234@hotmail.com',
+                                    required: {
+                                        value: true,
+                                        message: 'El email de contrato es requerido'
                                     }
                                 })}>
                             </input>

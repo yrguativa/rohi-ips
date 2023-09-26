@@ -1,9 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 import { IMercadoPagoResponse } from '../models/interfaces/IMercadoPago';
 import { STATUS_RESPONSE_FAILURE, STATUS_RESPONSE_PENDING, STATUS_RESPONSE_SUCCESS } from '../models/enums';
+import { getEnvironments } from '../helpers/getEnviroments';
 
-const accessToken = 'TEST-510079169950085-090518-9769b59baabead9c751e5994dff07ee8-1465594705';
-const urlBaseResponse = `https://receipt-drag-cage-papua.trycloudflare.com/ResponsePayment`;
+const {  VITE_MCPAGO_TOKEN, VITE_MCPAGO_NOTIFICATION_RESPONSE} = getEnvironments();
+
+
 
 export async function CreatedOrder(idPayment: string, idClient: string, nameClient: string, paymentValue: number, month: string): Promise<IMercadoPagoResponse> {
     const orderData = {
@@ -11,9 +13,9 @@ export async function CreatedOrder(idPayment: string, idClient: string, nameClie
         site_id: "MCO",
         notification_url: "https://e720-190-237-16-208.sa.ngrok.io/webhook",
         back_urls: {
-            success: `${urlBaseResponse}/${idPayment}/${STATUS_RESPONSE_SUCCESS}`,
-            pending: `${urlBaseResponse}/${idPayment}/${STATUS_RESPONSE_PENDING}`,
-            failure: `${urlBaseResponse}/${idPayment}/${STATUS_RESPONSE_FAILURE}`,
+            success: `${VITE_MCPAGO_NOTIFICATION_RESPONSE}/${idPayment}/${STATUS_RESPONSE_SUCCESS}`,
+            pending: `${VITE_MCPAGO_NOTIFICATION_RESPONSE}/${idPayment}/${STATUS_RESPONSE_PENDING}`,
+            failure: `${VITE_MCPAGO_NOTIFICATION_RESPONSE}/${idPayment}/${STATUS_RESPONSE_FAILURE}`,
         },
         external_reference: uuidv4() + '#' + idPayment,
         items: [
@@ -37,7 +39,7 @@ export async function CreatedOrder(idPayment: string, idClient: string, nameClie
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            'Authorization': `Bearer ${accessToken}`
+            'Authorization': `Bearer ${VITE_MCPAGO_TOKEN}`
         },
         body: JSON.stringify(orderData),
     });

@@ -8,6 +8,9 @@ export const getEnvironments = () => {
         VITE_FBASE_MESSAGINGSENDERID: import.meta.env.VITE_FBASE_MESSAGINGSENDERID,
         VITE_FBASE_APPID: import.meta.env.VITE_FBASE_APPID,
         VITE_FBASE_DATABASEURL: import.meta.env.VITE_FBASE_DATABASEURL,
+
+        VITE_MCPAGO_TOKEN: import.meta.env.VITE_MCPAGO_TOKEN,
+        VITE_MCPAGO_NOTIFICATION_RESPONSE: import.meta.env.VITE_MCPAGO_NOTIFICATION_RESPONSE,
     };
 
     return {

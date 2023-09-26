@@ -47,6 +47,8 @@ jobs:
           VITE_FBASE_MESSAGINGSENDERID: ${{secrets.VITE_FBASE_MESSAGINGSENDERID}}
           VITE_FBASE_APPID: ${{secrets.VITE_FBASE_APPID}}
           VITE_FBASE_DATABASEURL: ${{secrets.VITE_FBASE_DATABASEURL}}
+          VITE_MCPAGO_TOKEN: ${{secrets.VITE_MCPAGO_TOKEN}}
+          VITE_MCPAGO_NOTIFICATION_RESPONSE: ${{secrets.VITE_MCPAGO_NOTIFICATION_RESPONSE}}
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact

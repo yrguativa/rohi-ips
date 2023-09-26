@@ -15,7 +15,6 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "firebase": "^10.3.0",
-    "gh-pages": "^6.0.0",
     "humanize": "^0.0.9",
     "query-string": "^8.1.0",
     "react": "^18.2.0",

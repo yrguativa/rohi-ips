@@ -37,6 +37,14 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm install
+        env:
+          VITE_FBASE_APIKEY: ${{ secrets.VITE_FBASE_APIKEY }}
+          VITE_FBASE_AUTHDOMAIN: ${{secrets.VITE_FBASE_AUTHDOMAIN}}
+          VITE_FBASE_PROJECTID: ${{secrets.VITE_FBASE_PROJECTID}}
+          VITE_FBASE_STORAGEBUCKET: ${{secrets.VITE_FBASE_STORAGEBUCKET}}
+          VITE_FBASE_MESSAGINGSENDERID: ${{secrets.VITE_FBASE_MESSAGINGSENDERID}}
+          VITE_FBASE_APPID: ${{secrets.VITE_FBASE_APPID}}
+          VITE_FBASE_DATABASEURL: ${{secrets.VITE_FBASE_DATABASEURL}}
       - name: Build
         run: npm run build
       - name: Setup Pages

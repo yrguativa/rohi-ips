@@ -12,23 +12,32 @@ import { setErrorUI } from "../ui/uiSlice";
 export const thunkLogin = (email: string, password: string): ThunkAction<void, RootState, unknown, Action> =>
     async dispatch => {
         dispatch(checkingCredentials());
-        const contract = await getContractByEmail(email!);
-
-        if (contract) {
-            const result = await loginWithEmailPassword({ email, password });
-            const state: IUserAuthState = {
-                status: undefined,
-                uid: result.uid,
-                email: email,
-                displayName: result.displayName,
-                photoURL: result.photoURL
-            };
-
-            dispatch(login(state))
-            dispatch(setErrorUI(undefined));
+        const result = await loginWithEmailPassword({ email, password });
+        if (!result.ok)
+        {
+            dispatch(setErrorUI('Usuario y contraseña invalido'));
+            return; 
         }
-        else {
-            dispatch(setErrorUI('No se encontro un Contrato asociado a este correo electronico'));
+        const roles = await getRolesByUser(result.uid!);
+        const state: IUserAuthState = {
+            status: undefined,
+            uid: result.uid,
+            email: email,
+            displayName: result.displayName,
+            photoURL: result.photoURL,
+            roles
+        };
+        if (roles && (roles.isAdmin || roles.isRadioUser)) {
+            dispatch(login(state));
+            dispatch(setErrorUI(undefined));
+        } else {
+            const contract = await getContractByEmail(email);
+            if (contract) {
+                dispatch(login(state));
+                dispatch(setErrorUI(undefined));
+            } else {
+                dispatch(setErrorUI('No se encontro un Contrato asociado a este correo electronico'));
+            }
         }
     }
 

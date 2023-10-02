@@ -141,8 +141,7 @@ export default function RegisterPage() {
                                                     </label>
                                                     <input type="text" placeholder="Ingrese su nombre completo"
                                                         className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                                        {...register("UserName", {
-                                                            value: "Paola Bohorquez",
+                                                        {...register("UserName", {                                                            
                                                             required: {
                                                                 value: true,
                                                                 message: "El nombre es obligatorio"
@@ -158,7 +157,6 @@ export default function RegisterPage() {
                                                     <input type="email" placeholder="Ingrese su email"
                                                         className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                         {...register("Email", {
-                                                            value: "paola1234@hotmail.com",
                                                             required: {
                                                                 value: true,
                                                                 message: "El Email es obligatorio"
@@ -174,7 +172,6 @@ export default function RegisterPage() {
                                                     <input type="password" placeholder="Ingres su contraseña"
                                                         className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                         {...register("Password", {
-                                                            value: "Abc123456.",
                                                             required: {
                                                                 value: true,
                                                                 message: "La contraseña es obligatoria"
@@ -194,7 +191,6 @@ export default function RegisterPage() {
                                                     <input type="password" placeholder="Re-enter password"
                                                         className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                                         {...register("ConfirmPassword", {
-                                                            value: "Abc123456.",
                                                             required: {
                                                                 value: true,
                                                                 message: "El campao de confirmar contraseña es requerida",

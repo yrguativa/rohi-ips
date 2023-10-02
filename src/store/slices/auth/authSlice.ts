@@ -17,6 +17,7 @@ export const authSlice = createSlice({
             state.email = payload.email;
             state.displayName = payload.displayName;
             state.photoURL = payload.photoURL;
+            state.roles = payload.roles;
             state.errorMessage = undefined;
         },
         logout: (state, action: PayloadAction<IUserAuthState>) => {

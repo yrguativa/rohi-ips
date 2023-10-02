@@ -7,6 +7,7 @@ import { loadContract } from "."
 import { PaymentStatusEnum } from "../../../models/enums"
 import { Contract, Patient } from "../../../models/interfaces"
 import { cleanPatientsSave } from "../patient"
+import { setMessage } from "../ui/uiSlice"
 
 export const thunkLoadContract = (): ThunkAction<void, RootState, unknown, Action> =>
     async (dispatch) => {
@@ -33,4 +34,6 @@ export const thunkCreatedContract = (contract: Contract): ThunkAction<void, Root
         await postPatients(patients);
 
         dispatch(cleanPatientsSave());
+
+        dispatch(setMessage(`Se creo el contrato número ${numberContract}`));
     }

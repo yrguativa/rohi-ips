@@ -73,7 +73,6 @@ export default function ContractCreatePage() {
                             <input id="Number" type="text" placeholder="Numero" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 + (errors.Number && " border-danger ")}
                                 {...register("Number", {
-                                    value: 1102,
                                     required: {
                                         value: true,
                                         message: 'Número de contrato es requerido'
@@ -91,7 +90,6 @@ export default function ContractCreatePage() {
                             <input id="Email" type="email" placeholder="Email" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 + (errors.Email && " border-danger ")}
                                 {...register("Email", {
-                                    value: 'paola1234@hotmail.com',
                                     required: {
                                         value: true,
                                         message: 'El email de contrato es requerido'
@@ -109,10 +107,13 @@ export default function ContractCreatePage() {
                             <input id="Rate" type="number" placeholder="Tarifa" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 + (errors.Rate && " border-danger ")}
                                 {...register("Rate", {
-                                    value: 10,
                                     required: {
                                         value: true,
                                         message: 'Tarifa es requerido'
+                                    },
+                                    min:{
+                                        value: 2000,
+                                        message: 'El minimo valor para el campo tarifa es $2.000'
                                     }
                                 })}>
                             </input>
@@ -127,7 +128,6 @@ export default function ContractCreatePage() {
                             <input id="DateStart" type="date" placeholder="Inicio Contrato" className={"custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 + (errors.DateStart && " border-danger ")}
                                 {...register("DateStart", {
-                                    value: '2023-09-01',
                                     required: {
                                         value: true,
                                         message: 'Fecha Inicio Contrato es requerido'
@@ -145,7 +145,6 @@ export default function ContractCreatePage() {
                             <input id="DateEnd" type="date" placeholder="Fin de Contrato" className={"custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 + (errors.DateEnd && " border-danger ")}
                                 {...register("DateEnd", {
-                                    value: '2024-09-01',
                                     required: {
                                         value: true,
                                         message: 'Fecha fin de contrato es requerido'
@@ -163,7 +162,6 @@ export default function ContractCreatePage() {
                             <input id="DateNextPayment" type="date" placeholder="Fin de Contrato" className={"custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 + (errors.DateNextPayment && " border-danger ")}
                                 {...register("DateNextPayment", {
-                                    value: '2024-10-01',
                                     required: {
                                         value: true,
                                         message: 'Fecha fin de contrato es requerido'
@@ -187,7 +185,6 @@ export default function ContractCreatePage() {
                                     <div className={"absolute left-1 top-1 h-6 w-6 rounded-full bg-white transition" +
                                         (ToggleStatus && '!right-1 !translate-x-full !bg-primary !bg-lime-500')}></div>
                                 </div>
-
                             </label>
                         </div >
 

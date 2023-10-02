@@ -3,7 +3,8 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 interface UIState {
     Loading: boolean
     DarkMode: boolean
-    ErrorMessage?:string
+    Message?: string
+    ErrorMessage?: string
 }
 const initialState: UIState = {
     Loading: false,
@@ -22,13 +23,15 @@ export const uiSlice = createSlice({
         darkModeToggle: (state) => {
             state.DarkMode = !state.DarkMode;
         },
+        setMessage: (state, action: PayloadAction<string | undefined>) => {
+            const { payload } = action;
+            state.Message = payload;
+        },
         setErrorUI: (state, action: PayloadAction<string | undefined>) => {
             const { payload } = action;
-            console.log("🚀 ~ file: uiSlice.ts:27 ~ payload:", payload)
-
             state.ErrorMessage = payload;
         },
     }
 });
 
-export const { loadingToggle, darkModeToggle, setErrorUI } = uiSlice.actions;
+export const { loadingToggle, darkModeToggle, setMessage, setErrorUI } = uiSlice.actions;

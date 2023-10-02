@@ -10,7 +10,7 @@ import { AuthRouter } from "../../auth/router/authRouter"
 
 
 export const UserRouter = () => {
-    const { uiState: { DarkMode } } = useAppSelector(state => state);
+    const { uiState: { DarkMode }, userAuthState: { roles } } = useAppSelector(state => state);
     const { status } = useAppSelector(state => state.userAuthState);
 
     return (
@@ -26,8 +26,13 @@ export const UserRouter = () => {
                             <Route path="/" element={<ClientHomePage />} />
                             <Route path="/contract/" element={<ContractCreatePage />} />
                             <Route path="/user/" element={<UserHomePage />} />
-
-                            <Route path='/*' element={<Navigate to='/' />} />
+                            {
+                                (roles?.isRadioUser || roles?.isAdmin) ? (
+                                    <Route path='/*' element={<Navigate to='/user' />} />
+                                ) : (
+                                    <Route path='/*' element={<Navigate to='/' />} />
+                                )
+                            }
                         </Routes>
                     </main>
                 </div>

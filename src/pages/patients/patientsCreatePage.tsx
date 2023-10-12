@@ -34,7 +34,7 @@ export default function PatientsCreatePage() {
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                     Identificación
                 </label>
-                <input id="Identification" type="number" placeholder="Fin de Contrato" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                <input id="Identification" type="number" placeholder="Identificación" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     + (errors.Identification && " border-danger ")}
                     {...register("Identification", {
                         required: {

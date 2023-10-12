@@ -10,7 +10,7 @@ import { useAppDispatch } from "../../hooks/hooks";
 
 type FormContract = {
     Number: number;
-    Email:string;
+    Email: string;
     Rate: number;
     Status: StatusEnum;
     DateStart: string;
@@ -49,7 +49,7 @@ export default function ContractCreatePage() {
                 Status: PaymentStatusEnum.Pending
             }]
         }
-
+        
         dispatch(thunkCreatedContract(contract));
         reset();
     }
@@ -85,7 +85,7 @@ export default function ContractCreatePage() {
                         </div>
                         <div className="mb-4">
                             <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="username">
-                                Número de contrato
+                                Email
                             </label>
                             <input id="Email" type="email" placeholder="Email" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 + (errors.Email && " border-danger ")}
@@ -107,11 +107,12 @@ export default function ContractCreatePage() {
                             <input id="Rate" type="number" placeholder="Tarifa" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 + (errors.Rate && " border-danger ")}
                                 {...register("Rate", {
+                                    valueAsNumber: true,
                                     required: {
                                         value: true,
                                         message: 'Tarifa es requerido'
                                     },
-                                    min:{
+                                    min: {
                                         value: 2000,
                                         message: 'El minimo valor para el campo tarifa es $2.000'
                                     }

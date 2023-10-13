@@ -4,21 +4,21 @@ import { Patient, Payment } from "../models/interfaces";
 import { Contract } from '../models/interfaces/IContractState';
 import { StatusEnum } from "../models/enums";
 
-export async function ApplyPayment(icContract: string, Contract: Contract, idPayment: string, payment: Payment) {
-    const docContractsRef = doc(FirebaseDB, 'Contracts', icContract);
+export async function ApplyPayment(idContract: string, Contract: Contract, idPayment: string, payment: Payment) {
+    const docContractsRef = doc(FirebaseDB, 'Contracts', idContract);
     await setDoc(docContractsRef, Contract, { merge: true });
 
-    const docRef = doc(FirebaseDB, `Contracts/${icContract}/Payments/${idPayment}`);
+    const docRef = doc(FirebaseDB, `Contracts/${idContract}/Payments/${idPayment}`);
     await setDoc(docRef, payment, { merge: true });
 
     const documentRef = collection(FirebaseDB, "Patients");
-    const qry = query(documentRef, where("Contract", "==", icContract))//, orderBy('Number', 'desc'));
+    const qry = query(documentRef, where("Contract", "==", idContract,))
     const querySnapshot = await getDocs(qry);
 
-    querySnapshot.forEach(async (doc) => {
-        const patient = doc.data() as Patient;
-        patient.Status = StatusEnum.Active; 
+    querySnapshot.forEach(async (docPatient) => {
+        const patient = docPatient.data() as Patient;
+        patient.Status = StatusEnum.Active;
 
-        await setDoc(docRef, patient, { merge: true });
+        await setDoc(doc(documentRef, docPatient.id), patient, { merge: true });
     });
 }

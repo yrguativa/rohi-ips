@@ -17,7 +17,7 @@ export default function ClientHomePage() {
     const paymentContract = (idPayment: string) => {
         dispatch(thunkPayment(idPayment))
     };
-
+    // TODO: Extraert in function file 
     const naturalDay = (timestamp: number) => {
         timestamp = (timestamp === undefined) ? new Date().getTime() / 1000 : timestamp;
 
@@ -35,10 +35,10 @@ export default function ClientHomePage() {
         const shortDayTxt = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
         const monthTxt = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
-
-        return `${shortDayTxt[d.getDay()]} ${d.getDate()} ${monthTxt[d.getMonth()]} de ${d.getFullYear()}`;
+        const dateTimeStamp = new Date(timestamp * 1000);
+        return `${shortDayTxt[dateTimeStamp.getDay()]} ${dateTimeStamp.getDate()} ${monthTxt[dateTimeStamp.getMonth()]} de ${dateTimeStamp.getFullYear()}`;
     };
-
+    // TODO: Extraert in function file Month
     const numberFormat = (number: number, decimals: number = 2, decPoint: string = '.', thousandsSep: string = ',') => {
 
         const sign = number < 0 ? '-' : '';
@@ -51,7 +51,7 @@ export default function ClientHomePage() {
             intPart.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousandsSep) +
             (decimals ? decPoint + Math.abs(number - parseInt(intPart)).toFixed(decimals).slice(2) : '');
     };
-
+    
     return (
         <div
             className="rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-boxdark m-10  md:p-6 xl:p-9">
@@ -93,7 +93,6 @@ export default function ClientHomePage() {
                             <div key={payment.Id} className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
                                 <div className="flex items-center justify-center p-2.5 xl:p-5">
                                     <p className="font-medium text-black dark:text-white">
-                                        {/* {humanize.date('Y-m-d', (new Date(payment.InvoiceDate)))} */}
                                         {
                                             naturalDay(payment.InvoiceDate! / 1000)
                                         }

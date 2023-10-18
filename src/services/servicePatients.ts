@@ -12,7 +12,9 @@ export const getPatients = async () => {
     querySnapshot.forEach((doc) => {
         const patient = doc.data() as Patient;
         patient.Identification = doc.id;
-
+        if ( typeof(patient.Type) !== "number"){
+            patient.Type = parseInt(patient.Type);
+        }
         patients.push(patient);
     });
 

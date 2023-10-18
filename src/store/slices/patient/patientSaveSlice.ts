@@ -2,7 +2,8 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { IPatientState, Patient } from '../../../models/interfaces';
 
 const initialState: IPatientState = {
-    Patients: []
+    Patients: [],
+    AllPatients:[]
 };
 
 export const patientSaveSlice = createSlice({

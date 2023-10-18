@@ -4,6 +4,9 @@ import { Patient } from "../../models/interfaces";
 import { StatusEnum } from "../../models/enums";
 import { createPatientSave } from "../../store/slices/patient";
 
+type propsPage = {
+    stateCreate: StatusEnum
+}
 type FormPatient = {
     Identification: string;
     Name: string;
@@ -12,7 +15,7 @@ type FormPatient = {
     Type: number;
 };
 
-export default function PatientsCreatePage() {
+export default function PatientsCreatePage({ stateCreate }: propsPage) {
     const dispatch = useAppDispatch();
     const { register, getValues, formState: { errors } } = useForm<FormPatient>();
 
@@ -23,7 +26,7 @@ export default function PatientsCreatePage() {
             Name,
             Address,
             Type,
-            Status: StatusEnum.Disabled,
+            Status: stateCreate
         }
         dispatch(createPatientSave(patient));
     }

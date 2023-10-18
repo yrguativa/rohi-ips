@@ -191,7 +191,7 @@ export default function ContractCreatePage() {
 
                         <hr />
                         <h2 className="text-lg mt-3 mb-1">Pacientes</h2>
-                        <PatientsCreatePage></PatientsCreatePage>
+                        <PatientsCreatePage stateCreate={(!ToggleStatus) ? StatusEnum.Active : StatusEnum.Disabled } ></PatientsCreatePage>
                         <ListPatientsPage></ListPatientsPage>
                         <div className="flex items-center justify-between mt-3">
                             <button type="submit" className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray mt-7" >

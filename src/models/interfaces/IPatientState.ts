@@ -1,5 +1,6 @@
 export interface IPatientState {
     Patients: Patient[]
+    AllPatients: Patient[]
 }
 
 export interface Patient {

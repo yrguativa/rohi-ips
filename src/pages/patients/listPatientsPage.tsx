@@ -9,6 +9,17 @@ export default function ListPatientsPage() {
     const onRemovePatient = (identification: string) => {
         dispatch(removePatientSave(identification));
     }
+    const getPatientType = (typeId :number) =>{
+        switch(typeId)
+        {
+            case 1: 
+            return 'Pagador' ;
+            case 2: 
+            return 'Beneficiario';
+            case 3: 
+            return 'Pagador / Beneficiario'; 
+        }
+    }
     return (
         <>
             <div className="flex flex-col">
@@ -46,7 +57,7 @@ export default function ListPatientsPage() {
                             </div>
 
                             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-                                <p className="font-medium text-black dark:text-white">{patient.Type == 1 ? 'Cotizante' : 'Beneficiario'}</p>
+                                <p className="font-medium text-black dark:text-white">{getPatientType(patient.Type)}</p>
                             </div>
 
                             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">

@@ -5,10 +5,9 @@ import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { darkModeToggle } from '../store/slices/ui/uiSlice';
 import { thunkLogout } from '../store/slices/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { thunkLoadPatientsById } from '../store/slices/patient';
+import { clearPatientsFilter, getPatientsFilter } from '../store/slices/patient';
 
 // import viteLogo from '/vite.svg'
-import { thunkLoadPatientsByName } from '../store/slices/patient/thunks';
 type SearchContract = {
     textSearch: string;
 };
@@ -26,14 +25,10 @@ export default function Navbar() {
     const onSubmit: SubmitHandler<SearchContract> = data => {
         const { textSearch } = data;
         if (!textSearch || textSearch == null || textSearch == undefined || textSearch.trim() === '' || textSearch.length < 1) {
-            return;
+            dispatch(clearPatientsFilter());
         }
 
-        if (!isNaN(parseInt(textSearch))) {
-            dispatch(thunkLoadPatientsById(textSearch))
-        } else {
-            dispatch(thunkLoadPatientsByName(textSearch))
-        }
+        dispatch(getPatientsFilter(textSearch));
         navigate("/user");
     }
 

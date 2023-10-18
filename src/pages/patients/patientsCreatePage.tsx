@@ -94,8 +94,9 @@ export default function PatientsCreatePage() {
                                 message: 'Tipo paciente es requerido'
                             },
                         })}>
+                        <option value="1">Pagador</option>
                         <option value="2">Beneficiario</option>
-                        <option value="1">Cotizante</option>
+                        <option value="3">Pagador / Beneficiario</option>
                     </select>
                     <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                         <svg className="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"

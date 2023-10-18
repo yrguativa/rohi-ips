@@ -7,7 +7,6 @@ import { thunkLogout } from '../store/slices/auth';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { clearPatientsFilter, getPatientsFilter } from '../store/slices/patient';
 
-// import viteLogo from '/vite.svg'
 type SearchContract = {
     textSearch: string;
 };
@@ -144,7 +143,9 @@ export default function Navbar() {
                             </span>
 
                             <span className="h-12 w-12 rounded-full">
-                                <img src={photoURL!} alt="User" className='rounded-full' />
+                                {
+                                    !photoURL && photoURL !== null ? <img src={photoURL} alt="User" className='rounded-full' style={{ width: 100 + '%' }} /> : <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 24 24"><g fill="#DDC79C"><circle cx="12" cy="6" r="4" /><path d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z" opacity=".5" /></g></svg>
+                                }
                             </span>
 
                             <svg className={"hidden fill-current sm:block" + (dropdownOpen && 'rotate-180')} width="12" height="8"

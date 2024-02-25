@@ -25,6 +25,7 @@ export const UserRouter = () => {
                             {/* Client */}
                             <Route path="/" element={<ClientHomePage />} />
                             <Route path="/contract/" element={<ContractCreatePage />} />
+                            <Route path="/contract/:idContract" element={<ContractCreatePage />} />
                             <Route path="/user/" element={<UserHomePage />} />
                             {
                                 (roles?.isRadioUser || roles?.isAdmin) ? (

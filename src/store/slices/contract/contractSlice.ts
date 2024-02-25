@@ -23,9 +23,15 @@ export const contractSlice = createSlice({
             const { payload } = action;
 
             state.Contract = payload.Contract;
-        }
+        },
+        cleanContract: (state) => {
+            state.Contract = {
+                Payments: [],
+                Status: StatusEnum.Disabled
+            };
+        },
     }
 });
 
 // Action creators are generated for each case reducer function
-export const { loadContract, createContract } = contractSlice.actions;
+export const { loadContract, createContract, cleanContract } = contractSlice.actions;

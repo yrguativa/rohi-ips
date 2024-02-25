@@ -122,7 +122,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
                     Agregar Paciente
                 </button>
             </div>
-        </div >
+        </div>
     )
 }
 

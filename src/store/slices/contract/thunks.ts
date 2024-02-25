@@ -2,11 +2,11 @@
 import { Action, ThunkAction } from "@reduxjs/toolkit"
 import { getCurrentUser } from "../../../firebase/providersAuth"
 import { RootState } from "../.."
-import { postContract, getContractByEmail, postPatients } from "../../../services"
+import { postContract, getContractByEmail, postPatients, getContractById } from "../../../services"
 import { loadContract } from "."
 import { PaymentStatusEnum } from "../../../models/enums"
-import { Contract, Patient } from "../../../models/interfaces"
-import { cleanPatientsSave } from "../patient"
+import { Contract, Patient, Payment } from "../../../models/interfaces"
+import { cleanPatientsSave, thunkLoadPatients } from "../patient"
 import { setMessage } from "../ui/uiSlice"
 
 export const thunkLoadContract = (): ThunkAction<void, RootState, unknown, Action> =>
@@ -18,6 +18,15 @@ export const thunkLoadContract = (): ThunkAction<void, RootState, unknown, Actio
         dispatch(loadContract({ Contract: contract, StatusPayment: PaymentStatusEnum.Pending }))
     }
 
+export const thunkGetContract = (idContract: string): ThunkAction<void, RootState, unknown, Action> =>
+    async (dispatch) => {
+        const contract = await getContractById(idContract)
+        if (contract) {
+            const payment: Payment | undefined = (contract?.Payments && contract?.Payments?.length > 0) ? contract.Payments[contract?.Payments?.length - 1] : undefined
+            dispatch(loadContract({ Contract: contract, StatusPayment: payment?.Status || PaymentStatusEnum.Error }))
+            dispatch(thunkLoadPatients(contract!.Number!))
+        }
+    }
 
 export const thunkCreatedContract = (contract: Contract): ThunkAction<void, RootState, unknown, Action> =>
     async (dispatch, state) => {

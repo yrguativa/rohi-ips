@@ -1,23 +1,26 @@
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { StatusEnum } from "../../models/enums";
 import { removePatientSave } from "../../store/slices/patient";
+import PatientsCreatePage from "./patientsCreateComponent";
 
 
 export default function ListPatientsPage() {
     const { Patients } = useAppSelector(state => state.patientSaveState);
     const dispatch = useAppDispatch();
+    const [IsOpenDialogCreatedPatient, setIsOpenDialogCreatedPatient] = useState(false);
 
     const onRemovePatient = (identification: string) => {
         dispatch(removePatientSave(identification));
     }
-    const getPatientType = (typeId :number) =>{
-        switch(typeId)
-        {
-            case 1: 
-            return 'Pagador' ;
-            case 2: 
-            return 'Beneficiario';
-            case 3: 
-            return 'Pagador / Beneficiario'; 
+    const getPatientType = (typeId: number) => {
+        switch (typeId) {
+            case 1:
+                return 'Pagador';
+            case 2:
+                return 'Beneficiario';
+            case 3:
+                return 'Pagador / Beneficiario';
         }
     }
     return (
@@ -37,7 +40,9 @@ export default function ListPatientsPage() {
                         <h5 className="text-sm font-medium uppercase xsm:text-base">Tipo</h5>
                     </div>
                     <div className="hidden p-2.5 text-center sm:block xl:p-5">
-                        <h5 className="text-sm font-medium uppercase xsm:text-base"></h5>
+                        <button onClick={() => setIsOpenDialogCreatedPatient(nowState => !nowState)} type="button" className="rounded bg-primary p-3 font-medium text-gray mt-7" >
+                            Crear Paciente
+                        </button>
                     </div>
                 </div>
 
@@ -75,6 +80,15 @@ export default function ListPatientsPage() {
                     ))
                 }
             </div>
+            {
+                IsOpenDialogCreatedPatient &&
+                <dialog open>
+                    <div className="flex flex-row justify-end">
+                        <button onClick={() => setIsOpenDialogCreatedPatient(false)}>X</button>
+                    </div>
+                    <PatientsCreatePage stateCreate={StatusEnum.Active} ></PatientsCreatePage>
+                </dialog>
+            }
         </>
     )
 }

@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { thunkPayment } from "../../store/slices/client";
 import { thunkLoadContract } from "../../store/slices/contract";
 import { PaymentStatusEnum, StatusEnum } from "../../models/enums";
+import { naturalDay, numberFormat } from "../../utils/utilsDate";
 
 
 export default function ClientHomePage() {
@@ -16,40 +17,6 @@ export default function ClientHomePage() {
 
     const paymentContract = (idPayment: string) => {
         dispatch(thunkPayment(idPayment))
-    };
-    // TODO: Extraert in function file 
-    const naturalDay = (timestamp: number) => {
-        timestamp = (timestamp === undefined) ? new Date().getTime() / 1000 : timestamp;
-
-        const oneDay = 86400;
-        const d = new Date();
-        const today = (new Date(d.getFullYear(), d.getMonth(), d.getDate())).getTime() / 1000;
-
-        if (timestamp < today && timestamp >= today - oneDay) {
-            return 'yesterday';
-        } else if (timestamp >= today && timestamp < today + oneDay) {
-            return 'today';
-        } else if (timestamp >= today + oneDay && timestamp < today + 2 * oneDay) {
-            return 'tomorrow';
-        }
-        const shortDayTxt = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-        const monthTxt = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-
-        const dateTimeStamp = new Date(timestamp * 1000);
-        return `${shortDayTxt[dateTimeStamp.getDay()]} ${dateTimeStamp.getDate()} ${monthTxt[dateTimeStamp.getMonth()]} de ${dateTimeStamp.getFullYear()}`;
-    };
-    // TODO: Extraert in function file Month
-    const numberFormat = (number: number, decimals: number = 2, decPoint: string = '.', thousandsSep: string = ',') => {
-
-        const sign = number < 0 ? '-' : '';
-        number = Math.abs(+number || 0);
-
-        const intPart = parseInt(number.toFixed(decimals), 10) + '';
-        const j = intPart.length > 3 ? intPart.length % 3 : 0;
-
-        return sign + (j ? intPart.substr(0, j) + thousandsSep : '') +
-            intPart.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousandsSep) +
-            (decimals ? decPoint + Math.abs(number - parseInt(intPart)).toFixed(decimals).slice(2) : '');
     };
     
     return (

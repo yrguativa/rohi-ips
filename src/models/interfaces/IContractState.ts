@@ -1,9 +1,11 @@
 import { PaymentStatusEnum, StatusEnum } from "../enums";
+import { Patient } from "./IPatientState";
 
 export interface IContractState {
     Contract?: Contract
     PaymentURL?: string,
     StatusPayment: PaymentStatusEnum,
+    AllContracts : Contract[]
 }
 
 export interface Contract {
@@ -14,6 +16,7 @@ export interface Contract {
     DateEnd?: number;
     DateStart?: number;
     Payments?: Payment[];
+    Patients?: Patient[]
     UserCreated?: string;
 }
 

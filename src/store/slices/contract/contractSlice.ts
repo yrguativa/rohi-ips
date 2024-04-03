@@ -1,28 +1,34 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { PaymentStatusEnum, StatusEnum } from '../../../models/enums';
-import { IContractState } from '../../../models/interfaces';
+import { Contract, IContractState } from '../../../models/interfaces';
 
 const initialState: IContractState = {
     Contract: {
         Payments: [],
         Status: StatusEnum.Disabled
     },
-    StatusPayment: PaymentStatusEnum.Pending
+    StatusPayment: PaymentStatusEnum.Pending,
+    AllContracts:[]
 };
 
 export const contractSlice = createSlice({
     name: 'client',
     initialState,
     reducers: {
-        loadContract: (state, action: PayloadAction<IContractState>) => {
+        loadContract: (state, action: PayloadAction<Contract>) => {
             const { payload } = action;
 
-            state.Contract = payload.Contract;
+            state.Contract = payload;
         },
-        createContract: (state, action: PayloadAction<IContractState>) => {
+        loadAllContracts: (state, action: PayloadAction<Contract[]>) => {
             const { payload } = action;
 
-            state.Contract = payload.Contract;
+            state.AllContracts = payload;
+        },
+        createContract: (state, action: PayloadAction<Contract>) => {
+            const { payload } = action;
+
+            state.Contract = payload;
         },
         cleanContract: (state) => {
             state.Contract = {
@@ -34,4 +40,4 @@ export const contractSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { loadContract, createContract, cleanContract } = contractSlice.actions;
+export const { loadContract, loadAllContracts, createContract, cleanContract } = contractSlice.actions;

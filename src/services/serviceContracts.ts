@@ -1,7 +1,54 @@
 import { collection, getDocs, getDoc, where, query, doc, setDoc, addDoc } from 'firebase/firestore/lite';
 
 import { FirebaseDB } from '../firebase/config';
-import { Contract, Payment } from '../models/interfaces/';
+import { Contract, Patient, Payment } from '../models/interfaces/';
+import { StatusEnum } from '../models/enums';
+
+export const getAllContracts = async () => {
+    const contracts: Contract[] = [];
+    const documentRef = collection(FirebaseDB, "Contracts");
+    const qry = query(documentRef, where("Status", "!=", StatusEnum.Cancel))//, orderBy('Number', 'desc'));
+    const querySnapshot = await getDocs(qry);
+
+    const promises = querySnapshot.docs.map(async (doc) => {
+        const contractData = doc.data() as Contract;
+        const contract = {
+            ...contractData,
+            Number: doc.id,
+            Payments: [],
+            Patients: []
+        } as Contract;
+
+        const collectionRefPayments = collection(FirebaseDB, `/Contracts/${doc.id}/Payments`);   
+        const collectionRefPatients = collection(FirebaseDB, `/Contracts/${doc.id}/Patients`);
+
+        const [paymentsSnap, PatientsSnap] = await Promise.all([getDocs(collectionRefPayments), getDocs(collectionRefPatients)]);
+
+        paymentsSnap.forEach(doc => {
+            const payment = doc.data() as Payment;
+            payment.Id = doc.id;
+
+            contract.Payments!.push(payment);
+        });
+
+        PatientsSnap.forEach(doc => {
+            const patient = doc.data() as Patient;
+            patient.Identification = doc.id;
+
+            if (typeof (patient.Type) !== "number") {
+                patient.Type = parseInt(patient.Type);
+            }
+
+            contract.Patients!.push(patient);
+        });
+
+        contracts.push(contract);
+    });
+
+    await Promise.all(promises);
+
+    return contracts;
+}
 
 export const getContract = async (uid = '') => {
     if (!uid) throw new Error('El UID del usuario no existe');

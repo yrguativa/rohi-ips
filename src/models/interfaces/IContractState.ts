@@ -5,7 +5,9 @@ export interface IContractState {
     Contract?: Contract
     PaymentURL?: string,
     StatusPayment: PaymentStatusEnum,
-    AllContracts : Contract[]
+    AllContracts : Contract[],
+    IsActivateFilter: boolean,
+    ContractsFilter : Contract[]
 }
 
 export interface Contract {

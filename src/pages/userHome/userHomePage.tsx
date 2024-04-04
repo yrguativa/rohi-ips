@@ -1,19 +1,28 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { StatusEnum } from "../../models/enums";
 import { thunkAllLoadContracts } from "../../store/slices/contract";
+import { Contract } from "../../models/interfaces";
 
 export default function UserHomePage() {
+    const [contractsDisplay, setContractsDisplay]= useState<Contract[]>([]);  
     const dispatch = useAppDispatch();
-    const {  
-        userAuthState: { status, roles },
-        contractState: {AllContracts}
+    const {
+        userAuthState: { roles },
+        contractState: { AllContracts, IsActivateFilter , ContractsFilter}
     } = useAppSelector(state => state);
-    
+
     useEffect(() => {
-        dispatch(thunkAllLoadContracts());
-    }, [dispatch, status]);
+        if (!IsActivateFilter && AllContracts.length === 0) {
+            dispatch(thunkAllLoadContracts());
+        }
+        else if (IsActivateFilter){
+            setContractsDisplay([...ContractsFilter]);
+        } else {
+            setContractsDisplay([...AllContracts]);
+        }
+    }, [IsActivateFilter, ContractsFilter, AllContracts, dispatch]);
 
     const getPatientType = (typeId: number) => {
         switch (typeId) {
@@ -56,7 +65,7 @@ export default function UserHomePage() {
                     </div>
 
                     {
-                        AllContracts.map(contract =>
+                        contractsDisplay.map(contract =>
                             contract.Patients!.map(patient => (
                                 <div key={patient.Identification} className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-7">
                                     <div className="flex items-center justify-center p-2.5 xl:p-5">
@@ -78,7 +87,7 @@ export default function UserHomePage() {
                                     <div className="flex items-center justify-center p-2.5 xl:p-5">
                                         <p className="font-medium text-black dark:text-white">{contract.Number}</p>
                                     </div>
-                                    
+
                                     <div className="flex items-center justify-center p-2.5 xl:p-5">
                                         {
                                             patient.Status === StatusEnum.Active ? (

@@ -35,12 +35,8 @@ export const timesStampToDate = (timestamp: number) => {
     return new Date(timestamp * 1000);
 };
 export const stringToStamp = (dateString: string): number => {
-    console.log("🚀 ~ stringToStamp ~ dateString:", dateString)
     const dateSegments = dateString.split('-').map(segment => parseInt(segment))
-    console.log("🚀 ~ stringToStamp ~ dateSegments:", dateSegments)
-
     const dateConvert = new Date(dateSegments[0], dateSegments[1] - 1, dateSegments[2])
-    console.log("🚀 ~ stringToStamp ~ dateConvert:", dateConvert)
 
     return dateConvert.getTime()
 }

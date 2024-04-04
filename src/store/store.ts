@@ -3,7 +3,7 @@ import { authSlice } from './slices/auth'
 import { clientSlice } from './slices/client'
 import { contractSlice } from './slices/contract'
 import { uiSlice } from './slices/ui/uiSlice'
-import { patientSaveSlice, patientSlice } from './slices/patient'
+import { patientSaveSlice } from './slices/patient'
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +11,6 @@ export const store = configureStore({
         userAuthState: authSlice.reducer,
         clientState: clientSlice.reducer,
         contractState: contractSlice.reducer,
-        patientState: patientSlice.reducer,
         patientSaveState: patientSaveSlice.reducer,
     },
 })

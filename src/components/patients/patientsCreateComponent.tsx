@@ -9,6 +9,7 @@ type propsPage = {
 }
 type FormPatient = {
     Identification: string;
+    IdentificationType: number;
     Name: string;
     Address: string;
     BirthDate: number;
@@ -16,7 +17,6 @@ type FormPatient = {
     City: number;
     EPS: number;
     Email: string;
-    IdentificationType: number;
     Neighborhood: string;
     Phone: number;
     Status: StatusEnum;
@@ -28,11 +28,19 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
     const { register, getValues, formState: { errors } } = useForm<FormPatient>();
 
     const onSubmitPatient = () => {
-        const { Identification, Name, Address, Type } = getValues();
+        const { Identification, IdentificationType, Name, Address, BirthDate, CellPhone, City, EPS, Email, Neighborhood, Phone, Type } = getValues();
         const patient: Patient = {
             Identification,
+            IdentificationType,
             Name,
             Address,
+            BirthDate,
+            CellPhone: CellPhone.toString(),
+            City,
+            EPS,
+            Email,
+            Neighborhood,
+            Phone: Phone.toString(),
             Type,
             Status: stateCreate
         }

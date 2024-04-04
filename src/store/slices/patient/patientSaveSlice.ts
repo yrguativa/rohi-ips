@@ -10,11 +10,6 @@ export const patientSaveSlice = createSlice({
     name: 'client',
     initialState,
     reducers: {
-        loadPatientsSave: (state, action: PayloadAction<Patient[]>) => {
-            const { payload } = action;
-
-            state.Patients = payload;
-        },
         createPatientSave: (state, action: PayloadAction<Patient>) => {
             const { payload } = action;
 
@@ -26,12 +21,8 @@ export const patientSaveSlice = createSlice({
             const patients = state.Patients!.filter(p => p.Identification != idPatient);
             state.Patients = [...patients];
         },
-
-        cleanPatientsSave: (state) => {
-            state.Patients = [];
-        },
     }
 });
 
 // Action creators are generated for each case reducer function
-export const { loadPatientsSave, createPatientSave, removePatientSave, cleanPatientsSave } = patientSaveSlice.actions;
+export const {  createPatientSave, removePatientSave } = patientSaveSlice.actions;

@@ -3,9 +3,8 @@ import { Action, ThunkAction } from "@reduxjs/toolkit"
 import { getCurrentUser } from "../../../firebase/providersAuth"
 import { RootState } from "../.."
 import { postContract, getContractByEmail, postPatients, getContractById, getAllContracts } from "../../../services"
-import { loadAllContracts, loadContract } from "."
-import { Contract, Patient, Payment } from "../../../models/interfaces"
-import { cleanPatientsSave, thunkLoadPatients } from "../patient"
+import { loadAllContracts, loadContract, loadContractForm } from "."
+import { Contract, Patient } from "../../../models/interfaces"
 import { setMessage } from "../ui/uiSlice"
 
 export const thunkLoadContract = (): ThunkAction<void, RootState, unknown, Action> =>
@@ -28,9 +27,7 @@ export const thunkGetContract = (idContract: string): ThunkAction<void, RootStat
     async (dispatch) => {
         const contract = await getContractById(idContract)
         if (contract) {
-            const payment: Payment | undefined = (contract?.Payments && contract?.Payments?.length > 0) ? contract.Payments[contract?.Payments?.length - 1] : undefined
-            dispatch(loadContract(contract!))
-            dispatch(thunkLoadPatients(contract!.Number!))
+            dispatch(loadContractForm(contract!))
         }
     }
 
@@ -48,7 +45,7 @@ export const thunkCreatedContract = (contract: Contract): ThunkAction<void, Root
         patients = patients.map(p => ({ ...p, Contract: numberContract } as Patient));
         await postPatients(patients);
 
-        dispatch(cleanPatientsSave());
+        //dispatch(cleanPatientsSave());
 
         dispatch(setMessage(`Se creo el contrato número ${numberContract}`));
     }

@@ -4,9 +4,10 @@ import { StatusEnum } from "../../models/enums";
 import { removePatientSave } from "../../store/slices/patient";
 import PatientsCreatePage from "./patientsCreateComponent";
 
-
 export default function ListPatientsPage() {
-    const { Patients } = useAppSelector(state => state.patientSaveState);
+    const { ContractForm } = useAppSelector(state => state.contractState);
+    console.log("🚀 ~ ListPatientsPage ~ ContractForm:", ContractForm)
+    const Patients = ContractForm?.Patients || [];
     const dispatch = useAppDispatch();
     const [IsOpenDialogCreatedPatient, setIsOpenDialogCreatedPatient] = useState(false);
 

@@ -4,10 +4,9 @@ import { useSearchParams } from "react-router-dom";
 import ListPatientsPage from "../../components/patients/listPatientsComponent";
 import { PaymentStatusEnum, StatusEnum } from "../../models/enums";
 import { Contract } from "../../models/interfaces";
-import { thunkCreatedContract, thunkGetContract } from "../../store/slices/contract";
+import { cleanContractForm, thunkCreatedContract, thunkGetContract } from "../../store/slices/contract";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { DateAddMonths, dateToString, stringToStamp, timesStampToString } from "../../utils/utilsDate";
-import { cleanPatientsSave } from "../../store/slices/patient";
 import ListPaymentsPage from "../../components/payments/listPaymentsComponent";
 import { Payment } from '../../models/interfaces/IContractState';
 
@@ -23,7 +22,7 @@ type FormContract = {
 
 export default function ContractCreatePage() {
     const dispatch = useAppDispatch();
-    const { contractState: { Contract: ContractUpdate } } = useAppSelector(state => state);
+    const { contractState: { ContractForm } } = useAppSelector(state => state);
     const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<FormContract>({
         defaultValues: {
             Status: StatusEnum.Disabled
@@ -38,29 +37,28 @@ export default function ContractCreatePage() {
         if (idContract && idContract !== undefined && idContract !== '') {
             dispatch(thunkGetContract(idContract!))
         } else {
-            dispatch(cleanPatientsSave())
+            dispatch(cleanContractForm())
         }
-    }, [])
+    }, [idContract, dispatch])
 
-    const loadFormContractUpdate = () => {
+    const loadFormContractForm = () => {
         if (idContract && idContract !== undefined && idContract !== '' &&
-            ContractUpdate && !isNaN(parseInt(ContractUpdate.Number!))) {
-            console.log("🚀 ~ useEffect ~ ContractUpdate:", ContractUpdate)
-            if (ContractUpdate.Payments) {
-                setPayments(ContractUpdate?.Payments)
+            ContractForm && !isNaN(parseInt(ContractForm.Number!))) {
+            if (ContractForm.Payments) {
+                setPayments(ContractForm?.Payments)
             }
-            setValue('Number', parseInt(ContractUpdate.Number!))
-            setValue('Email', ContractUpdate.Email!)
-            setValue('Rate', ContractUpdate.Rate!)
-            setValue('DateStart', timesStampToString(ContractUpdate.DateStart!))
-            setValue('DateEnd', timesStampToString(ContractUpdate.DateEnd!))
+            setValue('Number', parseInt(ContractForm.Number!))
+            setValue('Email', ContractForm.Email!)
+            setValue('Rate', ContractForm.Rate!)
+            setValue('DateStart', timesStampToString(ContractForm.DateStart!))
+            setValue('DateEnd', timesStampToString(ContractForm.DateEnd!))
 
             const status = ToggleStatus ? StatusEnum.Active : StatusEnum.Disabled;
-            if (ContractUpdate.Status !== status) {
+            if (ContractForm.Status !== status) {
                 toggleStatusChange()
             }
 
-            const paymentLast = (ContractUpdate?.Payments && ContractUpdate?.Payments?.length > 0) ? ContractUpdate.Payments[ContractUpdate?.Payments?.length - 1] : undefined
+            const paymentLast = (ContractForm?.Payments && ContractForm?.Payments?.length > 0) ? ContractForm.Payments[ContractForm?.Payments?.length - 1] : undefined
             if (paymentLast && paymentLast.Status == PaymentStatusEnum.Pending && paymentLast.InvoiceDate !== undefined) {
                 setValue('DateNextPayment', timesStampToString(paymentLast.InvoiceDate!))
             } else if (paymentLast && paymentLast.Status == PaymentStatusEnum.Approved && paymentLast.InvoiceDate !== undefined) {
@@ -69,15 +67,15 @@ export default function ContractCreatePage() {
                 setValue('DateNextPayment', dateToString(nextPaymentDate))
 
             } else {
-                const paymentDate = new Date(ContractUpdate.DateStart!)
+                const paymentDate = new Date(ContractForm.DateStart!)
                 const nextPaymentDate = DateAddMonths(paymentDate, 1)
                 setValue('DateNextPayment', dateToString(nextPaymentDate))
             }
         }
     }
     useEffect(() => {
-        loadFormContractUpdate();
-    }, [ContractUpdate])
+        loadFormContractForm();
+    }, [ContractForm])
 
     // events of components
     const [ToggleStatus, setToggleStatus] = useState(false);

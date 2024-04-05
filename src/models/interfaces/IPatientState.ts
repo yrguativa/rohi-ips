@@ -7,6 +7,7 @@ export interface IPatientState {
 
 export interface Patient {
     Identification?: string;
+    IdentificationType: number;
     Name: string;
     Address: string;
     Contract?: string;
@@ -15,7 +16,6 @@ export interface Patient {
     City: number;
     EPS: number;
     Email?: string;
-    IdentificationType: string;
     Neighborhood?: string;
     Phone?: string;
     Status: StatusEnum;

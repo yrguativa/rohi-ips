@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import { useAppSelector } from "../hooks/hooks";
 
 export default function Sidebar() {
-    const { userAuthState: { roles } } = useAppSelector(state => state);
+    const { roles } = useAppSelector(state => state.userAuthState);
     return (
         <aside
             //:class="sidebarToggle ? 'translate-x-0' : '-translate-x-full'"

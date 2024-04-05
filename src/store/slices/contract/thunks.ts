@@ -1,54 +1,70 @@
+import { Action, ThunkAction } from "@reduxjs/toolkit";
+import { getCurrentUser } from "../../../firebase/providersAuth";
+import { RootState } from "../..";
+import {
+    postContract,
+    getContractByEmail,
+    postPatients,
+    getContractById,
+    getAllContracts,
+} from "../../../services";
+import { loadAllContracts, loadContract, loadContractForm } from ".";
+import { Contract, Patient } from "../../../models/interfaces";
+import { setMessage } from "../ui/uiSlice";
 
-import { Action, ThunkAction } from "@reduxjs/toolkit"
-import { getCurrentUser } from "../../../firebase/providersAuth"
-import { RootState } from "../.."
-import { postContract, getContractByEmail, postPatients, getContractById, getAllContracts } from "../../../services"
-import { loadAllContracts, loadContract } from "."
-import { Contract, Patient, Payment } from "../../../models/interfaces"
-import { cleanPatientsSave, thunkLoadPatients } from "../patient"
-import { setMessage } from "../ui/uiSlice"
-
-export const thunkLoadContract = (): ThunkAction<void, RootState, unknown, Action> =>
-    async (dispatch) => {
+export const thunkLoadContract =
+    (): ThunkAction<void, RootState, unknown, Action> => async (dispatch) => {
         const currentUser = getCurrentUser() ?? undefined;
         if (!currentUser) return;
-        const contract = await getContractByEmail(currentUser.email!)
+        const contract = await getContractByEmail(currentUser.email!);
 
-        dispatch(loadContract(contract!))
-    }
+        dispatch(loadContract(contract!));
+    };
 
-export const thunkAllLoadContracts = (): ThunkAction<void, RootState, unknown, Action> =>
-    async (dispatch) => {
-        const contracts = await getAllContracts();
+export const thunkAllLoadContracts =
+    (): ThunkAction<void, RootState, unknown, Action> => async (dispatch, state) => {
+        let contracts = state().contractState.AllContracts;
+        if (contracts === undefined || contracts === null || contracts.length === 0) {
+            contracts = await getAllContracts();
 
-        dispatch(loadAllContracts(contracts))
-    }
-
-export const thunkGetContract = (idContract: string): ThunkAction<void, RootState, unknown, Action> =>
-    async (dispatch) => {
-        const contract = await getContractById(idContract)
-        if (contract) {
-            const payment: Payment | undefined = (contract?.Payments && contract?.Payments?.length > 0) ? contract.Payments[contract?.Payments?.length - 1] : undefined
-            dispatch(loadContract(contract!))
-            dispatch(thunkLoadPatients(contract!.Number!))
+            dispatch(loadAllContracts(contracts));
         }
-    }
+    };
 
-export const thunkCreatedContract = (contract: Contract): ThunkAction<void, RootState, unknown, Action> =>
-    async (dispatch, state) => {
-        contract.UserCreated = getCurrentUser().uid || '';
-        const numberContract = contract.Number!;
-        const payments = contract.Payments!;
-        delete contract.Number;
-        delete contract.Payments;
+export const thunkGetContract =
+    (idContract: string): ThunkAction<void, RootState, unknown, Action> =>
+        async (dispatch, state) => {
+            const contracts = state().contractState.AllContracts.filter(
+                (c) => (c.Number == idContract)
+            );
+            if (contracts && contracts.length > 0 && contracts[0]) {
+                dispatch(loadContractForm(contracts[0]));
+            } else {
+                const contract = await getContractById(idContract);
+                if (contract) {
+                    dispatch(loadContractForm(contract!));
+                }
+            }
+        };
 
-        await postContract(numberContract.toString(), contract, payments);
+export const thunkCreatedContract =
+    (contract: Contract): ThunkAction<void, RootState, unknown, Action> =>
+        async (dispatch, state) => {
+            contract.UserCreated = getCurrentUser().uid || "";
+            const numberContract = contract.Number!;
+            const payments = contract.Payments!;
+            delete contract.Number;
+            delete contract.Payments;
 
-        let patients = state().patientSaveState.Patients;
-        patients = patients.map(p => ({ ...p, Contract: numberContract } as Patient));
-        await postPatients(patients);
+            await postContract(numberContract.toString(), contract, payments);
 
-        dispatch(cleanPatientsSave());
+            let patients = state().patientSaveState.Patients;
+            patients = patients.map(
+                (p) => ({ ...p, Contract: numberContract } as Patient)
+            );
+            await postPatients(patients);
 
-        dispatch(setMessage(`Se creo el contrato número ${numberContract}`));
-    }
+            //dispatch(cleanPatientsSave());
+
+            dispatch(setMessage(`Se creo el contrato número ${numberContract}`));
+        };

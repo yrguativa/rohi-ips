@@ -10,9 +10,8 @@ import { AuthRouter } from "../../auth/router/authRouter"
 
 
 export const UserRouter = () => {
-    const { uiState: { DarkMode }, userAuthState: { roles } } = useAppSelector(state => state);
-    const { status } = useAppSelector(state => state.userAuthState);
-
+    const { DarkMode } = useAppSelector(state => state.uiState);
+    const { roles, status } = useAppSelector(state => state.userAuthState);
     return (
         (status !== 'authenticated')
             ? <Route path="/auth/*" element={<AuthRouter />} />

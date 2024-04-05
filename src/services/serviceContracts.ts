@@ -116,15 +116,30 @@ export const getContractById = async (idContract: string): Promise<Contract | un
     if (contactsSnap) {
         contract = contactsSnap.data() as Contract;
         contract.Number = contactsSnap.id
-
+        contract.Patients = [];
         contract.Payments = [];
-        const collectionRefPayments = collection(FirebaseDB, `/Contracts/${contactsSnap.id}/Payments`);
-        const paymentsSnap = await getDocs(collectionRefPayments);
+
+        const collectionRefPayments = collection(FirebaseDB, `/Contracts/${contract.Number}/Payments`);   
+        const collectionRefPatients = collection(FirebaseDB, `/Contracts/${contract.Number}/Patients`);
+
+        const [paymentsSnap, PatientsSnap] = await Promise.all([getDocs(collectionRefPayments), getDocs(collectionRefPatients)]);
+
         paymentsSnap.forEach(doc => {
             const payment = doc.data() as Payment;
             payment.Id = doc.id;
 
             contract.Payments!.push(payment);
+        });
+
+        PatientsSnap.forEach(doc => {
+            const patient = doc.data() as Patient;
+            patient.Identification = doc.id;
+
+            if (typeof (patient.Type) !== "number") {
+                patient.Type = parseInt(patient.Type);
+            }
+
+            contract.Patients!.push(patient);
         });
 
         return contract;

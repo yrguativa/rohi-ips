@@ -52,8 +52,20 @@ export const contractSlice = createSlice({
             state.IsActivateFilter = false;
             state.ContractsFilter = [];
         },
+
+
+        loadContractForm: (state, action: PayloadAction<Contract>) => {
+            const { payload } = action;
+
+            state.ContractForm = payload;
+        },
+        
+        cleanContractForm: (state) => {
+            state.ContractForm = undefined;
+        },
+
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { loadContract, loadAllContracts, createContract, cleanContract, getContractsFilter, clearContractsFilter } =   contractSlice.actions;
+export const { loadContract, loadAllContracts, createContract, cleanContract, getContractsFilter, clearContractsFilter, loadContractForm, cleanContractForm } =   contractSlice.actions;

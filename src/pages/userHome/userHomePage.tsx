@@ -8,11 +8,8 @@ import { Contract } from "../../models/interfaces";
 export default function UserHomePage() {
     const [contractsDisplay, setContractsDisplay]= useState<Contract[]>([]);  
     const dispatch = useAppDispatch();
-    const {
-        userAuthState: { roles },
-        contractState: { AllContracts, IsActivateFilter , ContractsFilter}
-    } = useAppSelector(state => state);
-
+    const { roles } = useAppSelector(state => state.userAuthState);
+    const { AllContracts, IsActivateFilter , ContractsFilter } = useAppSelector(state => state.contractState);
     useEffect(() => {
         if (!IsActivateFilter && AllContracts.length === 0) {
             dispatch(thunkAllLoadContracts());

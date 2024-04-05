@@ -7,7 +7,7 @@ import { STATUS_RESPONSE_FAILURE, STATUS_RESPONSE_PENDING, STATUS_RESPONSE_SUCCE
 import { thunkPaymentApply } from '../../store/slices/client';
 
 export default function ResponsePaymentPage() {
-    const { userAuthState: { status:StatusAuth } } = useAppSelector(state => state);
+    const { status:StatusAuth } = useAppSelector(state => state.userAuthState);
     const dispatch = useAppDispatch();
     const { statusResponse, idPayment = '' } = useParams();
     const location = useLocation();

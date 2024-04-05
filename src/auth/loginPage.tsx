@@ -10,7 +10,7 @@ type FormLogin = {
 //https://github.com/davidgrzyb/tailwind-auth-template/blob/master/login.html
 
 export default function LoginPage() {
-    const { uiState: { ErrorMessage } } = useAppSelector(state => state);
+    const { ErrorMessage } = useAppSelector(state => state.uiState);
     const dispatch = useAppDispatch();
     const { register, handleSubmit, formState: { errors } } = useForm<FormLogin>();
 

@@ -12,7 +12,7 @@ type RegisterForm = {
 }
 
 export default function RegisterPage() {
-    const { uiState: { ErrorMessage } } = useAppSelector(state => state);
+    const { ErrorMessage } = useAppSelector(state => state.uiState);
     const dispatch = useAppDispatch();
     const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterForm>();
     const onSubmit = (data: RegisterForm) => {

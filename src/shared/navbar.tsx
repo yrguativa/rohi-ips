@@ -14,7 +14,8 @@ type SearchContractForm = {
 export default function Navbar() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { userAuthState: { displayName, email, photoURL }, uiState: { DarkMode } } = useAppSelector(state => state);
+    const { displayName, email, photoURL } = useAppSelector(state => state.userAuthState);
+    const { DarkMode } = useAppSelector(state => state.uiState);
 
     const [sidebarToggle, setSidebarToggle] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);

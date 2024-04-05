@@ -9,7 +9,8 @@ import { naturalDay, numberFormat } from "../../utils/utilsDate";
 
 export default function ClientHomePage() {
     const dispatch = useAppDispatch();
-    const { contractState: { Contract }, userAuthState: { status } } = useAppSelector(state => state);
+    const { Contract } = useAppSelector(state => state.contractState);
+    const { status } = useAppSelector(state => state.userAuthState);
 
     useEffect(() => {
         dispatch(thunkLoadContract());

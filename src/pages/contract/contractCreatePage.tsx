@@ -22,7 +22,7 @@ type FormContract = {
 
 export default function ContractCreatePage() {
     const dispatch = useAppDispatch();
-    const { contractState: { ContractForm } } = useAppSelector(state => state);
+    const { ContractForm  } = useAppSelector(state => state.contractState);
     const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<FormContract>({
         defaultValues: {
             Status: StatusEnum.Disabled

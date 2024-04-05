@@ -6,7 +6,6 @@ import PatientsCreatePage from "./patientsCreateComponent";
 
 export default function ListPatientsPage() {
     const { ContractForm } = useAppSelector(state => state.contractState);
-    console.log("🚀 ~ ListPatientsPage ~ ContractForm:", ContractForm)
     const Patients = ContractForm?.Patients || [];
     const dispatch = useAppDispatch();
     const [IsOpenDialogCreatedPatient, setIsOpenDialogCreatedPatient] = useState(false);

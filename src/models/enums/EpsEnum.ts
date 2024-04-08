@@ -1,4 +1,4 @@
-export enum PaymentStatusEnum {
+export enum EPSEnum {
     None = 1,
     Compensar,
     Famisanar_Cafam,

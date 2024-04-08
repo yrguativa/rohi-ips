@@ -10,7 +10,6 @@ export interface Patient {
     IdentificationType: number;
     Name: string;
     Address: string;
-    Contract?: string;
     BirthDate?: number;
     CellPhone?: string;
     City: number;

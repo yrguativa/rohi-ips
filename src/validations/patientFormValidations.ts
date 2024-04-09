@@ -21,7 +21,7 @@ export const patientFormSchema = z //: ZodType<FormPatient> = z
             .number()
             .refine(dob => new Date(dob).toString() !== "Invalid Date", { message: "Please enter a valid date of birth" }),
         CellPhone: z
-            .string()
+            .coerce.number({ required_error:"El celular es requerido", invalid_type_error: "El valor ingresado no es un celular"})
             .refine((weight) => {
                 console.log("🚀 ~ CellPhone:z.string ~ weight:", weight);
                 return !isNaN(parseFloat(weight.toString()))

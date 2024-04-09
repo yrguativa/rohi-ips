@@ -1,31 +1,21 @@
 import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppDispatch } from "../../hooks/hooks";
 import { Patient } from "../../models/interfaces";
 import { StatusEnum } from "../../models/enums";
 import { createPatientSave } from "../../store/slices/patient";
+import { FormPatient, patientFormSchema } from "../../validations/patientFormValidations";
 
 type propsPage = {
     stateCreate: StatusEnum
 }
-type FormPatient = {
-    Identification: string;
-    IdentificationType: number;
-    Name: string;
-    Address: string;
-    BirthDate: number;
-    CellPhone: number;
-    City: number;
-    EPS: number;
-    Email: string;
-    Neighborhood: string;
-    Phone: number;
-    Status: StatusEnum;
-    Type: number;
-};
 
-export default function PatientsCreatePage({ stateCreate }: propsPage) {
+export default function PatientsCreatePage({ stateCreate }: propsPage = { stateCreate: StatusEnum.Disabled }) {
     const dispatch = useAppDispatch();
-    const { register, getValues, formState: { errors } } = useForm<FormPatient>();
+    const { register, getValues, formState: { errors } } = useForm<FormPatient>({
+        resolver: zodResolver(patientFormSchema),
+        mode: 'onChange',
+    });
 
     const onSubmitPatient = () => {
         const { Identification, IdentificationType, Name, Address, BirthDate, CellPhone, City, EPS, Email, Neighborhood, Phone, Type } = getValues();
@@ -44,7 +34,13 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
             Type,
             Status: stateCreate
         }
-        dispatch(createPatientSave(patient));
+        try {
+            patientFormSchema.parse(patient);
+
+            dispatch(createPatientSave(patient));
+        } catch (error) {
+            console.log("❌ ~ onSubmitPatient ~ error:", error)
+        }
     }
 
     return (
@@ -56,17 +52,10 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
                             Identificación
                         </label>
                         <input id="Identification" type="number" placeholder="Identificación" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                            + (errors.Identification && " border-danger ")}
-                            {...register("Identification", {
-                                required: {
-                                    value: true,
-                                    message: 'Identificación del paciente es requerido'
-                                },
-                            })}>
+                            + (errors.Identification && " border-danger border-l-4")}
+                            {...register("Identification")}>
                         </input>
-                        {
-                            errors.Identification && <span className="text-red-500 text-xs italic">{errors.Identification.message}</span>
-                        }
+                        {errors.Identification && <span className="text-danger text-xs italic font-bold">{errors.Identification.message}</span>}
                     </div>
                     <div className="mb-6 flex-1">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
@@ -74,16 +63,9 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
                         </label>
                         <input id="Name" type="text" placeholder="Nombre Completo" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                             + (errors.Name && " border-danger ")}
-                            {...register("Name", {
-                                required: {
-                                    value: true,
-                                    message: 'Nombre contrato es requerido'
-                                },
-                            })}>
+                            {...register("Name")}>
                         </input>
-                        {
-                            errors.Name && <span className="text-red-500 text-xs italic">{errors.Name.message}</span>
-                        }
+                        {errors.Name && <span className="text-danger text-xs italic font-bold">{errors.Name.message}</span>}
                     </div>
                     <div className="mb-6 flex-1">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
@@ -91,16 +73,9 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
                         </label>
                         <input id="Address" type="text" placeholder="Dirección" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                             + (errors.Address && " border-danger ")}
-                            {...register("Address", {
-                                required: {
-                                    value: true,
-                                    message: 'Dirección es requerida'
-                                },
-                            })}>
+                            {...register("Address")}>
                         </input>
-                        {
-                            errors.Name && <span className="text-red-500 text-xs italic">{errors.Name.message}</span>
-                        }
+                        {errors.Name && <span className="text-danger text-xs italic font-bold">{errors.Name.message}</span>}
                     </div>
                     <div className="mb-6 flex-1">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
@@ -108,33 +83,19 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
                         </label>
                         <input id="BirthDate" type="text" placeholder="Fecha de nacimiento" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                             + (errors.BirthDate && " border-danger ")}
-                            {...register("BirthDate", {
-                                required: {
-                                    value: true,
-                                    message: 'Fecha de nacimiento es requerido'
-                                },
-                            })}>
+                            {...register("BirthDate")}>
                         </input>
-                        {
-                            errors.BirthDate && <span className="text-red-500 text-xs italic">{errors.BirthDate.message}</span>
-                        }
+                        {errors.BirthDate?.message && <span className="text-danger text-xs italic font-bold">{errors.BirthDate?.message}</span>}
                     </div>
                     <div className="mb-6 flex-1">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                             Celular
                         </label>
                         <input id="CellPhone" type="text" placeholder="Celular" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                            + (errors.CellPhone && " border-danger ")}
-                            {...register("CellPhone", {
-                                required: {
-                                    value: true,
-                                    message: 'Celular es requerido'
-                                },
-                            })}>
+                            + (errors.CellPhone && " border-danger border-lef-[2px] ")}
+                            {...register("CellPhone")}>
                         </input>
-                        {
-                            errors.CellPhone && <span className="text-red-500 text-xs italic">{errors.CellPhone.message}</span>
-                        }
+                        {errors.CellPhone && <span className="text-danger text-xs italic font-bold">{errors.CellPhone.message}</span>}
                     </div>
                     <div className="mb-6 flex-1">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
@@ -142,16 +103,9 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
                         </label>
                         <input id="City" type="text" placeholder="Ciudad" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                             + (errors.Address && " border-danger ")}
-                            {...register("City", {
-                                required: {
-                                    value: true,
-                                    message: 'Ciudad es requerido'
-                                },
-                            })}>
+                            {...register("City")}>
                         </input>
-                        {
-                            errors.City && <span className="text-red-500 text-xs italic">{errors.City.message}</span>
-                        }
+                        {errors.City && <span className="text-danger text-xs italic font-bold">{errors.City.message}</span>}
                     </div>
                 </div>
                 <div className="flex flex-col ml-1">
@@ -162,12 +116,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
                         <div className="relative z-20 bg-transparent dark:bg-form-input">
                             <select id="EPS" className={"relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 + (errors.EPS && " border-danger ")}
-                                {...register("EPS", {
-                                    required: {
-                                        value: true,
-                                        message: 'EPS del paciente es requerido'
-                                    },
-                                })}>
+                                {...register("EPS")}>
                                 <option value="0"></option>
                                 <option value="1">NINGUNA</option>
                                 <option value="2">Compensar  E.P.S.</option>
@@ -195,9 +144,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
                                 </svg>
                             </span>
                         </div>
-                        {
-                            errors.EPS && <span className="text-red-500 text-xs italic">{errors.EPS.message}</span>
-                        }
+                        {errors.EPS && <span className="text-danger text-xs italic font-bold">{errors.EPS.message}</span>}
                     </div>
                     <div className="mb-6 flex-1">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
@@ -205,16 +152,9 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
                         </label>
                         <input id="Email" type="text" placeholder="Email" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                             + (errors.Address && " border-danger ")}
-                            {...register("Email", {
-                                required: {
-                                    value: true,
-                                    message: 'Email es requerido'
-                                },
-                            })}>
+                            {...register("Email")}>
                         </input>
-                        {
-                            errors.Email && <span className="text-red-500 text-xs italic">{errors.Email.message}</span>
-                        }
+                        {errors.Email && <span className="text-danger text-xs italic font-bold">{errors.Email.message}</span>}
                     </div>
                     <div className="mb-6 flex-1">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
@@ -222,16 +162,9 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
                         </label>
                         <input id="IdentificationType" type="text" placeholder="Tipo de identificación" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                             + (errors.IdentificationType && " border-danger ")}
-                            {...register("IdentificationType", {
-                                required: {
-                                    value: true,
-                                    message: 'Tipo de identificación es requerido'
-                                },
-                            })}>
+                            {...register("IdentificationType")}>
                         </input>
-                        {
-                            errors.IdentificationType && <span className="text-red-500 text-xs italic">{errors.IdentificationType.message}</span>
-                        }
+                        {errors.IdentificationType && <span className="text-danger text-xs italic font-bold">{errors.IdentificationType.message}</span>}
                     </div>
                     <div className="mb-6 flex-1">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
@@ -239,16 +172,9 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
                         </label>
                         <input id="Neighborhood" type="text" placeholder="Barrio" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                             + (errors.IdentificationType && " border-danger ")}
-                            {...register("Neighborhood", {
-                                required: {
-                                    value: true,
-                                    message: 'Barrio es requerido'
-                                },
-                            })}>
+                            {...register("Neighborhood")}>
                         </input>
-                        {
-                            errors.Neighborhood && <span className="text-red-500 text-xs italic">{errors.Neighborhood.message}</span>
-                        }
+                        {errors.Neighborhood && <span className="text-danger text-xs italic font-bold">{errors.Neighborhood.message}</span>}
                     </div>
                     <div className="mb-6 flex-1">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
@@ -256,16 +182,9 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
                         </label>
                         <input id="Phone" type="text" placeholder="Telefono" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                             + (errors.IdentificationType && " border-danger ")}
-                            {...register("Phone", {
-                                required: {
-                                    value: true,
-                                    message: 'Telefono es requerido'
-                                },
-                            })}>
+                            {...register("Phone")}>
                         </input>
-                        {
-                            errors.Phone && <span className="text-red-500 text-xs italic">{errors.Phone.message}</span>
-                        }
+                        {errors.Phone && <span className="text-danger text-xs italic font-bold">{errors.Phone.message}</span>}
                     </div>
                     <div className="mb-6 flex-1">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
@@ -274,12 +193,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
                         <div className="relative z-20 bg-transparent dark:bg-form-input">
                             <select id="Type" className={"relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 + (errors.Type && " border-danger ")}
-                                {...register("Type", {
-                                    required: {
-                                        value: true,
-                                        message: 'Tipo paciente es requerido'
-                                    },
-                                })}>
+                                {...register("Type")}>
                                 <option value="1">Pagador</option>
                                 <option value="2">Beneficiario</option>
                                 <option value="3">Pagador / Beneficiario</option>
@@ -295,9 +209,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage) {
                                 </svg>
                             </span>
                         </div>
-                        {
-                            errors.Type && <span className="text-red-500 text-xs italic">{errors.Type.message}</span>
-                        }
+                        {errors.Type && <span className="text-danger text-xs italic font-bold">{errors.Type.message}</span>}
                     </div>
                 </div>
             </div>

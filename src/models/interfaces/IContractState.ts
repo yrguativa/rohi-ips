@@ -7,11 +7,13 @@ export interface IContractState {
     StatusPayment: PaymentStatusEnum,
     AllContracts : Contract[],
 
-    ContractForm?: Contract,
-
     // properties by search in navbar
     IsActivateFilter: boolean,
     ContractsFilter : Contract[]
+}
+
+export interface IContractFormState {
+    ContractForm?: Contract,
 }
 
 export interface Contract {

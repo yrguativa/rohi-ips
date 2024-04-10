@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { StatusEnum } from "../../models/enums";
-import { removePatientSave } from "../../store/slices/patient";
 import PatientsCreatePage from "./patientsCreateComponent";
+import { removePatientSave } from "../../store/slices/contract";
 
 export default function ListPatientsPage() {
-    const { ContractForm } = useAppSelector(state => state.contractState);
+    const { ContractForm } = useAppSelector(state => state.contractFormSlice);
     const Patients = ContractForm?.Patients || [];
     const dispatch = useAppDispatch();
     const [IsOpenDialogCreatedPatient, setIsOpenDialogCreatedPatient] = useState(false);

@@ -31,6 +31,29 @@ export const thunkAllLoadContracts =
         }
     };
 
+export const thunkCreatedContract =
+    (contract: Contract): ThunkAction<void, RootState, unknown, Action> =>
+        async (dispatch, state) => {
+            contract.UserCreated = getCurrentUser().uid || "";
+            const numberContract = contract.Number!;
+            const payments = contract.Payments!;
+            delete contract.Number;
+            delete contract.Payments;
+
+            await postContract(numberContract.toString(), contract, payments);
+
+            let patients = state().contractFormSlice.ContractForm!.Patients;
+            patients = patients!.map(
+                (p) => ({ ...p, Contract: numberContract } as Patient)
+            );
+            await postPatients(patients);
+
+            //dispatch(cleanPatientsSave());
+
+            dispatch(setMessage(`Se creo el contrato número ${numberContract}`));
+        };
+
+
 export const thunkGetContract =
     (idContract: string): ThunkAction<void, RootState, unknown, Action> =>
         async (dispatch, state) => {
@@ -45,26 +68,4 @@ export const thunkGetContract =
                     dispatch(loadContractForm(contract!));
                 }
             }
-        };
-
-export const thunkCreatedContract =
-    (contract: Contract): ThunkAction<void, RootState, unknown, Action> =>
-        async (dispatch, state) => {
-            contract.UserCreated = getCurrentUser().uid || "";
-            const numberContract = contract.Number!;
-            const payments = contract.Payments!;
-            delete contract.Number;
-            delete contract.Payments;
-
-            await postContract(numberContract.toString(), contract, payments);
-
-            let patients = state().patientSaveState.Patients;
-            patients = patients.map(
-                (p) => ({ ...p, Contract: numberContract } as Patient)
-            );
-            await postPatients(patients);
-
-            //dispatch(cleanPatientsSave());
-
-            dispatch(setMessage(`Se creo el contrato número ${numberContract}`));
         };

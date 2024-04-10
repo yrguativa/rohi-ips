@@ -1,9 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { authSlice } from './slices/auth'
 import { clientSlice } from './slices/client'
-import { contractSlice } from './slices/contract'
+import { contractFormSlice, contractSlice } from './slices/contract'
 import { uiSlice } from './slices/ui/uiSlice'
-import { patientSaveSlice } from './slices/patient'
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +10,7 @@ export const store = configureStore({
         userAuthState: authSlice.reducer,
         clientState: clientSlice.reducer,
         contractState: contractSlice.reducer,
-        patientSaveState: patientSaveSlice.reducer,
+        contractFormSlice: contractFormSlice.reducer,
     },
 })
 

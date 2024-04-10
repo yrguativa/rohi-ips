@@ -3,8 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppDispatch } from "../../hooks/hooks";
 import { Patient } from "../../models/interfaces";
 import { StatusEnum } from "../../models/enums";
-import { createPatientSave } from "../../store/slices/patient";
 import { FormPatient, patientFormSchema } from "../../validations/patientFormValidations";
+import { createPatientSave } from "../../store/slices/contract";
 
 type propsPage = {
     stateCreate: StatusEnum
@@ -91,8 +91,8 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                             Celular
                         </label>
-                        <input id="CellPhone" type="text" placeholder="Celular" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                            + (errors.CellPhone && " border-danger border-lef-[2px] ")}
+                        <input id="CellPhone" type="text" placeholder="Celular" className={"w-full rounded-lg border-[1.5px]  bg-transparent py-3 px-5 font-medium outline-none transition  disabled:cursor-default disabled:bg-whiter  dark:bg-form-input"
+                            + (errors.CellPhone ? " border-danger ":" border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary")}
                             {...register("CellPhone")}>
                         </input>
                         {errors.CellPhone && <span className="text-danger text-xs italic font-bold">{errors.CellPhone.message}</span>}

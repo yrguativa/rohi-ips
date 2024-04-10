@@ -5,6 +5,7 @@ import { Patient } from "../../models/interfaces";
 import { StatusEnum } from "../../models/enums";
 import { FormPatient, patientFormSchema } from "../../validations/patientFormValidations";
 import { createPatientSave } from "../../store/slices/contract";
+import { stringToStamp } from "../../utils/utilsDate";
 
 type propsPage = {
     stateCreate: StatusEnum
@@ -20,17 +21,17 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
     const onSubmitPatient = () => {
         const { Identification, IdentificationType, Name, Address, BirthDate, CellPhone, City, EPS, Email, Neighborhood, Phone, Type } = getValues();
         const patient: Patient = {
-            Identification,
+            Identification: Identification.toString(),
             IdentificationType,
             Name,
             Address,
-            BirthDate,
-            CellPhone: CellPhone.toString(),
+            BirthDate: BirthDate ? stringToStamp(BirthDate) : undefined,
+            CellPhone: CellPhone ? CellPhone.toString() : undefined,
             City,
             EPS,
             Email,
             Neighborhood,
-            Phone: Phone.toString(),
+            Phone: Phone ? Phone.toString() : undefined,
             Type,
             Status: stateCreate
         }
@@ -47,7 +48,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
         <div className="flex flex-col">
             <div className="flex flex-row">
                 <div className="flex flex-col mr-1">
-                    <div className="mb-6 flex-1/4">
+                    <div className="mb-6 flex-1/4 min-h-24">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                             Identificación
                         </label>
@@ -57,7 +58,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
                         </input>
                         {errors.Identification && <span className="text-danger text-xs italic font-bold">{errors.Identification.message}</span>}
                     </div>
-                    <div className="mb-6 flex-1">
+                    <div className="mb-6 flex-1 min-h-24">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                             Nombre Completo
                         </label>
@@ -67,7 +68,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
                         </input>
                         {errors.Name && <span className="text-danger text-xs italic font-bold">{errors.Name.message}</span>}
                     </div>
-                    <div className="mb-6 flex-1">
+                    <div className="mb-6 flex-1 min-h-24">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                             Dirección
                         </label>
@@ -77,7 +78,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
                         </input>
                         {errors.Address && <span className="text-danger text-xs italic font-bold">{errors.Address.message}</span>}
                     </div>
-                    <div className="mb-6 flex-1">
+                    <div className="mb-6 flex-1 min-h-24">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                             Fecha de nacimiento
                         </label>
@@ -87,7 +88,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
                         </input>
                         {errors.BirthDate?.message && <span className="text-danger text-xs italic font-bold">{errors.BirthDate?.message}</span>}
                     </div>
-                    <div className="mb-6 flex-1">
+                    <div className="mb-6 flex-1 min-h-24">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                             Celular
                         </label>
@@ -97,7 +98,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
                         </input>
                         {errors.CellPhone && <span className="text-danger text-xs italic font-bold">{errors.CellPhone.message}</span>}
                     </div>
-                    <div className="mb-6 flex-1">
+                    <div className="mb-6 flex-1 min-h-24">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                             Ciudad
                         </label>
@@ -109,7 +110,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
                     </div>
                 </div>
                 <div className="flex flex-col ml-1">
-                    <div className="mb-6 flex-1">
+                    <div className="mb-6 flex-1 min-h-24">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                             Tipo de identificación
                         </label>
@@ -117,7 +118,6 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
                             <select id="IdentificationType" className={"relative z-20 w-full appearance-none rounded border bg-transparent py-3 px-5 outline-none transition dark:bg-form-input"
                                 + (errors.IdentificationType ? " border-danger border-l-4 " : " border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary")}
                                 {...register("IdentificationType")}>
-                                <option value="0"></option>
                                 <option value="1">CC</option>
                                 <option value="2">TI</option>
                                 <option value="3">RC</option>
@@ -137,7 +137,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
                         </div>
                         {errors.IdentificationType && <span className="text-danger text-xs italic font-bold">{errors.IdentificationType.message}</span>}
                     </div>
-                    <div className="mb-6 flex-1">
+                    <div className="mb-6 flex-1 min-h-24">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                             Email
                         </label>
@@ -147,7 +147,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
                         </input>
                         {errors.Email && <span className="text-danger text-xs italic font-bold">{errors.Email.message}</span>}
                     </div>
-                    <div className="mb-6 flex-1">
+                    <div className="mb-6 flex-1 min-h-24">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                             EPS
                         </label>
@@ -184,7 +184,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
                         </div>
                         {errors.EPS && <span className="text-danger text-xs italic font-bold">{errors.EPS.message}</span>}
                     </div>
-                    <div className="mb-6 flex-1">
+                    <div className="mb-6 flex-1 min-h-24">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                             Barrio
                         </label>
@@ -194,7 +194,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
                         </input>
                         {errors.Neighborhood && <span className="text-danger text-xs italic font-bold">{errors.Neighborhood.message}</span>}
                     </div>
-                    <div className="mb-6 flex-1">
+                    <div className="mb-6 flex-1 min-h-24">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                             Telefono
                         </label>
@@ -204,7 +204,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
                         </input>
                         {errors.Phone && <span className="text-danger text-xs italic font-bold">{errors.Phone.message}</span>}
                     </div>
-                    <div className="mb-6 flex-1">
+                    <div className="mb-6 flex-1 min-h-24">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                             Tipo de paciente
                         </label>

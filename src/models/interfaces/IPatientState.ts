@@ -9,11 +9,11 @@ export interface Patient {
     Identification?: string;
     IdentificationType: number;
     Name: string;
-    Address: string;
+    Address?: string;
     BirthDate?: number;
     CellPhone?: string;
-    City: number;
-    EPS: number;
+    City?: number;
+    EPS?: number;
     Email?: string;
     Neighborhood?: string;
     Phone?: string;

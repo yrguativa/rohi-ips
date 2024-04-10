@@ -6,44 +6,44 @@ import { EPSEnum } from '../models/enums/EpsEnum';
 export const patientFormSchema = z //: ZodType<FormPatient> = z
     .object({
         Identification: z
-            .string()
-            .refine((weight) => !isNaN(parseFloat(weight)), { message: "Weight must be a number", }),
-        IdentificationType: z
-            .nativeEnum(IdentificationTypeEnum),
+            .number({ required_error:"El celular es requerido", invalid_type_error: "El valor ingresado no es un celular"}),
+        IdentificationType: z // ToDo: error
+            .nativeEnum(IdentificationTypeEnum, { invalid_type_error: 'La tipo de identificación no es valida', required_error: "La tipo de identificación es requerida" } ),
         Name: z
             .string()
             .min(3, { message: "El nombre debe tener al menos 3 caracteres" })
-            .max(500, { message: "El nombre debe tener menos de 500 caracteres", }),
-        Address: z.string()
+            .max(500, { message: "El nombre debe tener menos de 500 caracteres" }),
+        Address: z
+            .string()
             .min(3, { message: "La dirección debe tener al menos 3 caracteres" })
             .max(500, { message: "La dirección debe tener menos de 500 caracteres", }),
-        BirthDate: z
+        BirthDate: z // ToDo: convert
             .number()
-            .refine(dob => new Date(dob).toString() !== "Invalid Date", { message: "Please enter a valid date of birth" }),
+            .refine(dob => new Date(dob).toString() !== "Invalid Date", { message: "La fecha de cumpleaños no tiene un valor valido" }),
         CellPhone: z
-            .coerce.number({ required_error:"El celular es requerido", invalid_type_error: "El valor ingresado no es un celular"})
-            .refine((weight) => {
-                console.log("🚀 ~ CellPhone:z.string ~ weight:", weight);
-                return !isNaN(parseFloat(weight.toString()))
-            }, { message: "Weight must be a number", }),
-        City: z
-            .number(),
-        EPS: z
-            .nativeEnum(EPSEnum),
-        Email: z
+            .number({ required_error:"El celular es requerido", invalid_type_error: "El valor ingresado no es un celular"})
+            .min(10, { message: "El nombre debe tener al menos 10 caracteres" })
+            .max(15, { message: "El nombre debe tener menos de 15 caracteres" }),
+        City: z // ToDo: convert
+            .number({ required_error:"La ciudad es requerida", invalid_type_error: "El valor ingresado no es una ciudad valida"}),
+        EPS: z // ToDo: convert
+            .nativeEnum(EPSEnum, { invalid_type_error: 'La EPS no es valida', required_error: "La EPS es requerida" }),
+        Email: z 
             .string()
-            .min(6, { message: "Por favor ingresa una fecha de nacimiento valida", }),
+            .email("El valor ingresado no es un email valido.")
+            .min(6, { message: "El nombre debe tener al menos 6 caracteres" }),
         Neighborhood: z
             .string()
             .min(3, { message: "El barrio debe tener al menos 3 caracteres", })
-            .max(500, { message: "El barrio debe tener menos de 500 caracteres", }),
+            .max(100, { message: "El barrio debe tener menos de 100 caracteres" }),
         Phone: z
-            .number()
-            .refine((weight) => !isNaN(parseFloat(weight.toString())), { message: "Weight must be a number", }),
-        Status: z
-            .nativeEnum(StatusEnum),
-        Type: z
-            .number()
+            .number({ required_error:"El telefono es requerido", invalid_type_error: "El valor ingresado no es un telefono"})
+            .min(6, { message: "El nombre debe tener al menos 6 caracteres" })
+            .max(15, { message: "El nombre debe tener menos de 15 caracteres" }),
+        Status: z // ToDo: convert
+            .nativeEnum(StatusEnum, { invalid_type_error: 'La Estado no es valida', required_error: "La Estado es requerida" }),
+        Type: z // ToDo: usar enum
+            .number({ required_error:"El tipo es requerido", invalid_type_error: "El valor ingresado no es un tipo valido"})
     });
 
 

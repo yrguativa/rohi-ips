@@ -19,7 +19,7 @@ export const getAllContracts = async () => {
             Patients: []
         } as Contract;
 
-        const collectionRefPayments = collection(FirebaseDB, `/Contracts/${doc.id}/Payments`);   
+        const collectionRefPayments = collection(FirebaseDB, `/Contracts/${doc.id}/Payments`);
         const collectionRefPatients = collection(FirebaseDB, `/Contracts/${doc.id}/Patients`);
 
         const [paymentsSnap, PatientsSnap] = await Promise.all([getDocs(collectionRefPayments), getDocs(collectionRefPatients)]);
@@ -119,7 +119,7 @@ export const getContractById = async (idContract: string): Promise<Contract | un
         contract.Patients = [];
         contract.Payments = [];
 
-        const collectionRefPayments = collection(FirebaseDB, `/Contracts/${contract.Number}/Payments`);   
+        const collectionRefPayments = collection(FirebaseDB, `/Contracts/${contract.Number}/Payments`);
         const collectionRefPatients = collection(FirebaseDB, `/Contracts/${contract.Number}/Patients`);
 
         const [paymentsSnap, PatientsSnap] = await Promise.all([getDocs(collectionRefPayments), getDocs(collectionRefPatients)]);
@@ -148,7 +148,7 @@ export const getContractById = async (idContract: string): Promise<Contract | un
     }
 }
 
-export const postContract = async (idContract: string, Contract: Contract, payments: Payment[]) => {
+export const postContract = async (idContract: string, Contract: Contract, payments: Payment[], patients: Patient[]) => {
     const docContractsRef = doc(FirebaseDB, 'Contracts', idContract);
     await setDoc(docContractsRef, Contract, { merge: true });
 
@@ -169,5 +169,14 @@ export const postContract = async (idContract: string, Contract: Contract, payme
             const subCollectionRef = collection(docContractsRef, "Payments")
             await addDoc(subCollectionRef, pay);
         }
+    });
+
+    patients.forEach(async patient => {
+        const identification = patient.Identification!;
+        const patientSave = { ...patient };
+        delete patientSave.Identification;
+
+        const docPaymentRef = doc(FirebaseDB, 'Contracts', idContract, 'Payments', identification);
+        await setDoc(docPaymentRef, patientSave, { merge: true });
     });
 }

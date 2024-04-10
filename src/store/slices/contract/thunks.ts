@@ -4,12 +4,11 @@ import { RootState } from "../..";
 import {
     postContract,
     getContractByEmail,
-    postPatients,
     getContractById,
     getAllContracts,
 } from "../../../services";
 import { loadAllContracts, loadContract, loadContractForm } from ".";
-import { Contract, Patient } from "../../../models/interfaces";
+import { Contract, } from "../../../models/interfaces";
 import { setMessage } from "../ui/uiSlice";
 
 export const thunkLoadContract =
@@ -33,22 +32,17 @@ export const thunkAllLoadContracts =
 
 export const thunkCreatedContract =
     (contract: Contract): ThunkAction<void, RootState, unknown, Action> =>
-        async (dispatch, state) => {
+        async (dispatch) => {
             contract.UserCreated = getCurrentUser().uid || "";
             const numberContract = contract.Number!;
             const payments = contract.Payments!;
+            const patients = contract.Patients!;
+
             delete contract.Number;
             delete contract.Payments;
+            delete contract.Patients;
 
-            await postContract(numberContract.toString(), contract, payments);
-
-            let patients = state().contractFormSlice.ContractForm!.Patients;
-            patients = patients!.map(
-                (p) => ({ ...p, Contract: numberContract } as Patient)
-            );
-            await postPatients(patients);
-
-            //dispatch(cleanPatientsSave());
+            await postContract(numberContract.toString(), contract, payments, patients);
 
             dispatch(setMessage(`Se creo el contrato número ${numberContract}`));
         };

@@ -6,7 +6,8 @@ export const patientFormSchema = z //: ZodType<FormPatient> = z
     .object({
         Identification: z
             .coerce
-            .number({ required_error: "El número de identificación es requerido", invalid_type_error: "El valor ingresado no es un número valido" }),
+            .number({ required_error: "El número de identificación es requerido", invalid_type_error: "El valor ingresado no es un número valido" })
+            .gte(100000, { message: "El número de identificación debe tener al menos 6 caracteres" }),
         IdentificationType: z
             .string()
             .transform(val => IdentificationTypeEnum[val as keyof typeof IdentificationTypeEnum])

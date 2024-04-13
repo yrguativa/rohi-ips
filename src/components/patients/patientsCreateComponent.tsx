@@ -11,12 +11,13 @@ import { z, ZodError } from "zod";
 
 type propsPage = {
     stateCreate: StatusEnum
+    closeModal : () => void;
 }
 
-export default function PatientsCreatePage({ stateCreate }: propsPage = { stateCreate: StatusEnum.Disabled }) {
+export default function PatientsCreatePage({ stateCreate, closeModal }: propsPage ) {
     const dispatch = useAppDispatch();
     const [errorFormSubmit, setErrorFormSubmit] = useState<ZodError>();
-    const { register, getValues, watch, formState: { errors, isDirty, isValid } } = useForm<FormPatient>({
+    const { register, getValues, formState: { errors } } = useForm<FormPatient>({
         resolver: zodResolver(patientFormSchema),
         mode: 'onChange',
     });
@@ -24,10 +25,10 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
     const onSubmitPatient = () => {
         const { Identification, IdentificationType, Name, Address, BirthDate, CellPhone, City, EPS, Email, Neighborhood, Phone, Type } = getValues();
         const patient: Patient = {
-            Identification: Identification.toString(),
+            Identification: Identification.toString() ,
             IdentificationType,
             Name,
-            Address : Address != undefined && Address != "" ? Address : undefined ,
+            Address: Address != undefined && Address != "" ? Address : undefined,
             BirthDate: BirthDate != undefined && BirthDate != "" ? stringToStamp(BirthDate!) : undefined,
             CellPhone: CellPhone ? CellPhone.toString() : undefined,
             City,
@@ -35,14 +36,15 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
             Email: Email != undefined && Email != "" ? Email : undefined,
             Neighborhood: Neighborhood != undefined && Neighborhood != "" ? Neighborhood : undefined,
             Phone: Phone ? Phone.toString() : undefined,
-            Type,
+            Type: parseInt(Type.toString()),
             Status: stateCreate
         }
-        console.log("🚀 ~ onSubmitPatient ~ patient:", patient)
+
         try {
             patientFormSchema.parse(patient);
             setErrorFormSubmit(undefined);
-            // dispatch(createPatientSave(patient));
+            dispatch(createPatientSave(patient));
+            closeModal();
         } catch (error) {
             if (error instanceof z.ZodError) {
                 console.log(error.issues);
@@ -244,7 +246,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
                     <ul>
                         {
                             errorFormSubmit.issues.map(is => {
-                                return (<li> * {is.message}</li>)
+                                return (<li key={is.code + is.path.join()}> * {is.message}</li>)
                             })
                         }
                     </ul>
@@ -253,7 +255,7 @@ export default function PatientsCreatePage({ stateCreate }: propsPage = { stateC
 
             {/* <pre>
                 {JSON.stringify(watch(), null, 2)}
-            </pre> */}
+            </pre>  */}
 
             <div className="mb-6 flex-1/4">
                 <button type="button" className="flex w-full justify-center rounded bg-primary disabled:bg-stroke p-3 font-medium text-gray disabled:text-black mt-7"

@@ -86,7 +86,7 @@ export default function ListPatientsPage() {
                     <div className="flex flex-row justify-end">
                         <button onClick={() => setIsOpenDialogCreatedPatient(false)}>X</button>
                     </div>
-                    <PatientsCreatePage stateCreate={StatusEnum.Active} ></PatientsCreatePage>
+                    <PatientsCreatePage stateCreate={StatusEnum.Active} closeModal={() => setIsOpenDialogCreatedPatient(false)} ></PatientsCreatePage>
                 </dialog>
             }
         </>

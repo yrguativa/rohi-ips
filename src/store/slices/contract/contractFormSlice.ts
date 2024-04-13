@@ -17,7 +17,8 @@ export const contractFormSlice = createSlice({
         createPatientSave: (state, action: PayloadAction<Patient>) => {
             const { payload } = action;
 
-            state.ContractForm!.Patients = [...state.ContractForm!.Patients!, payload];
+            const patients = state.ContractForm!.Patients!.filter(p => p.Identification != payload.Identification);
+            state.ContractForm!.Patients = [...patients, payload];
         },
 
         removePatientSave: (state, action: PayloadAction<string>) => {

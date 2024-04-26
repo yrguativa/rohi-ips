@@ -1,25 +1,23 @@
 import { useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
-import { thunkPayment } from "../../store/slices/client";
-import { thunkLoadContract } from "../../store/slices/contract";
+import { thunkLoadContractByUser, thunkPayment } from "../../store/slices/client";
 import { PaymentStatusEnum, StatusEnum } from "../../models/enums";
 import { naturalDay, numberFormat } from "../../utils/utilsDate";
 
-
 export default function ClientHomePage() {
     const dispatch = useAppDispatch();
-    const { Contract } = useAppSelector(state => state.contractState);
+    const { Contract } = useAppSelector(state => state.clientState);
     const { status } = useAppSelector(state => state.userAuthState);
 
     useEffect(() => {
-        dispatch(thunkLoadContract());
-    }, [dispatch, status]);
+        dispatch(thunkLoadContractByUser());
+    }, [Contract, dispatch, status]);
 
     const paymentContract = (idPayment: string) => {
         dispatch(thunkPayment(idPayment))
     };
-    
+
     return (
         <div
             className="rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-boxdark m-10  md:p-6 xl:p-9">

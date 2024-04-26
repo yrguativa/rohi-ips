@@ -3,22 +3,12 @@ import { getCurrentUser } from "../../../firebase/providersAuth";
 import { RootState } from "../..";
 import {
     postContract,
-    getContractByEmail,
     getContractById,
     getAllContracts,
 } from "../../../services";
-import { loadAllContracts, loadContract, loadContractForm } from ".";
+import { loadAllContracts, loadContractForm } from ".";
 import { Contract, } from "../../../models/interfaces";
 import { setMessage } from "../ui/uiSlice";
-
-export const thunkLoadContract =
-    (): ThunkAction<void, RootState, unknown, Action> => async (dispatch) => {
-        const currentUser = getCurrentUser() ?? undefined;
-        if (!currentUser) return;
-        const contract = await getContractByEmail(currentUser.email!);
-
-        dispatch(loadContract(contract!));
-    };
 
 export const thunkAllLoadContracts =
     (): ThunkAction<void, RootState, unknown, Action> => async (dispatch, state) => {

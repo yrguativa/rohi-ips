@@ -1,13 +1,15 @@
-import { v4 as uuidv4 } from 'uuid';
 import { IMercadoPagoResponse } from '../models/interfaces/IMercadoPago';
 import { STATUS_RESPONSE_FAILURE, STATUS_RESPONSE_PENDING, STATUS_RESPONSE_SUCCESS } from '../models/enums';
 import { getEnvironments } from '../helpers/getEnviroments';
+import { getTextMonth } from '../utils/utilsDate';
 
-const {  VITE_MCPAGO_TOKEN, VITE_MCPAGO_NOTIFICATION_RESPONSE} = getEnvironments();
+const { VITE_MCPAGO_TOKEN, VITE_MCPAGO_NOTIFICATION_RESPONSE } = getEnvironments();
 
-
-
-export async function CreatedOrder(idPayment: string, idClient: string, nameClient: string, paymentValue: number, month: string): Promise<IMercadoPagoResponse> {
+/*
+* Reference : https://www.mercadopago.com.co/developers/es/reference/preferences/_checkout_preferences/post
+*/
+export async function CreatedOrder(contractId: string, idPayment: string, idClient: string, nameClient: string, paymentValue: number, invoiceDate: Date): Promise<IMercadoPagoResponse> {
+    const month = getTextMonth(invoiceDate);
     const orderData = {
         application_id: "638518620025854",
         site_id: "MCO",
@@ -17,7 +19,7 @@ export async function CreatedOrder(idPayment: string, idClient: string, nameClie
             pending: `${VITE_MCPAGO_NOTIFICATION_RESPONSE}/${idPayment}/${STATUS_RESPONSE_PENDING}`,
             failure: `${VITE_MCPAGO_NOTIFICATION_RESPONSE}/${idPayment}/${STATUS_RESPONSE_FAILURE}`,
         },
-        external_reference: uuidv4() + '#' + idPayment,
+        external_reference: contractId + '#' + idPayment,
         items: [
             {
                 title: "ROHI IPS SAS",

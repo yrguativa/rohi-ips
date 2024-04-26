@@ -1,3 +1,3 @@
 export * from './serviceContracts';
-export * from './servicePayments';
+export * from './servicePaymentMercadoPago';
 export * from './serviceApplyPayment';

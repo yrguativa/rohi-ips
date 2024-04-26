@@ -67,3 +67,9 @@ export const DateAddMonths = (date: Date, months: number) => {
     date.setDate(Math.min(n, DateGetDaysInMonth(date)));
     return date;
 };
+
+
+export const getTextMonth = (date: Date) => {
+    const monthTxt = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    return monthTxt[date.getMonth()];
+}

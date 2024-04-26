@@ -95,6 +95,14 @@ export const getContractByEmail = async (email = ''): Promise<Contract | undefin
         const paymentsSnap = await getDocs(collectionRefPayments);
         paymentsSnap.forEach(doc => {
             const payment = doc.data() as Payment;
+            if (payment.Rate && !isNaN(payment.Rate)){
+                try {
+                    payment.Rate = parseInt(payment.Rate.toString())
+                } 
+                catch{
+                    console.error("Error in convert Rate of payment")
+                }
+            }
             payment.Id = doc.id;
 
             contract.Payments!.push(payment);

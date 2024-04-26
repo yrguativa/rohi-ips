@@ -1,12 +1,12 @@
 import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore/lite";
 import { FirebaseDB } from "../firebase/config";
 import { Patient, Payment } from "../models/interfaces";
-import { Contract } from '../models/interfaces/IContractState';
+import { Contract } from "../models/interfaces";
 import { StatusEnum } from "../models/enums";
 
-export async function ApplyPayment(idContract: string, Contract: Contract, idPayment: string, payment: Payment) {
+export async function ApplyPayment(idContract: string, contract: Contract, idPayment: string, payment: Payment) {
     const docContractsRef = doc(FirebaseDB, 'Contracts', idContract);
-    await setDoc(docContractsRef, Contract, { merge: true });
+    await setDoc(docContractsRef, contract, { merge: true });
 
     const docRef = doc(FirebaseDB, `Contracts/${idContract}/Payments/${idPayment}`);
     await setDoc(docRef, payment, { merge: true });

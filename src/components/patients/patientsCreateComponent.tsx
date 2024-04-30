@@ -58,7 +58,7 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
             <div className="flex flex-row">
                 <div className="flex flex-col mr-1">
                     <div className="mb-6 flex-1 min-h-24">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="IdentificationType">
                             Tipo de identificación
                         </label>
                         <div className="relative z-20 bg-transparent dark:bg-form-input">
@@ -85,7 +85,7 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
                         {errors.IdentificationType && <span className="text-danger text-xs italic font-bold">{errors.IdentificationType.message}</span>}
                     </div>
                     <div className="mb-6 flex-1 min-h-24">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="Name">
                             Nombre Completo*
                         </label>
                         <input id="Name" type="text" placeholder="Nombre Completo" className={"w-full rounded-lg border-[1.5px]  bg-transparent py-3 px-5 font-medium outline-none transition  disabled:cursor-default disabled:bg-whiter  dark:bg-form-input"
@@ -95,7 +95,7 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
                         {errors.Name && <span className="text-danger text-xs italic font-bold">{errors.Name.message}</span>}
                     </div>
                     <div className="mb-6 flex-1 min-h-24">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="Address">
                             Dirección
                         </label>
                         <input id="Address" type="text" placeholder="Dirección" className={"w-full rounded-lg border-[1.5px]  bg-transparent py-3 px-5 font-medium outline-none transition  disabled:cursor-default disabled:bg-whiter  dark:bg-form-input"
@@ -105,7 +105,7 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
                         {errors.Address && <span className="text-danger text-xs italic font-bold">{errors.Address.message}</span>}
                     </div>
                     <div className="mb-6 flex-1 min-h-24">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="BirthDate">
                             Fecha de nacimiento
                         </label>
                         <input id="BirthDate" type="date" placeholder="Fecha de nacimiento" className={"w-full rounded-lg border-[1.5px]  bg-transparent py-3 px-5 font-medium outline-none transition  disabled:cursor-default disabled:bg-whiter  dark:bg-form-input"
@@ -115,7 +115,7 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
                         {errors.BirthDate?.message && <span className="text-danger text-xs italic font-bold">{errors.BirthDate?.message}</span>}
                     </div>
                     <div className="mb-6 flex-1 min-h-24">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="CellPhone">
                             Celular
                         </label>
                         <input id="CellPhone" type="number" placeholder="Celular" className={"w-full rounded-lg border-[1.5px]  bg-transparent py-3 px-5 font-medium outline-none transition  disabled:cursor-default disabled:bg-whiter  dark:bg-form-input"
@@ -125,7 +125,7 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
                         {errors.CellPhone && <span className="text-danger text-xs italic font-bold">{errors.CellPhone.message}</span>}
                     </div>
                     <div className="mb-6 flex-1 min-h-24">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="City">
                             Ciudad
                         </label>
                         <input id="City" type="text" placeholder="Ciudad" className={"w-full rounded-lg border-[1.5px]  bg-transparent py-3 px-5 font-medium outline-none transition  disabled:cursor-default disabled:bg-whiter  dark:bg-form-input"
@@ -137,7 +137,7 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
                 </div>
                 <div className="flex flex-col ml-1">
                     <div className="mb-6 flex-1/4 min-h-24">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="Identification">
                             Identificación*
                         </label>
                         <input id="Identification" type="number" placeholder="Identificación" className={"w-full rounded-lg border-[1.5px]  bg-transparent py-3 px-5 font-medium outline-none transition  disabled:cursor-default disabled:bg-whiter  dark:bg-form-input"
@@ -147,7 +147,7 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
                         {errors.Identification && <span className="text-danger text-xs italic font-bold">{errors.Identification.message}</span>}
                     </div>
                     <div className="mb-6 flex-1 min-h-24">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="Email">
                             Email
                         </label>
                         <input id="Email" type="text" placeholder="Email" className={"w-full rounded-lg border-[1.5px]  bg-transparent py-3 px-5 font-medium outline-none transition  disabled:cursor-default disabled:bg-whiter  dark:bg-form-input"
@@ -157,7 +157,7 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
                         {errors.Email && <span className="text-danger text-xs italic font-bold">{errors.Email.message}</span>}
                     </div>
                     <div className="mb-6 flex-1 min-h-24">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="EPS">
                             EPS
                         </label>
                         <div className="relative z-20 bg-transparent dark:bg-form-input">
@@ -194,7 +194,7 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
                         {errors.EPS && <span className="text-danger text-xs italic font-bold">{errors.EPS.message}</span>}
                     </div>
                     <div className="mb-6 flex-1 min-h-24">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="Neighborhood">
                             Barrio
                         </label>
                         <input id="Neighborhood" type="text" placeholder="Barrio" className={"w-full rounded-lg border-[1.5px]  bg-transparent py-3 px-5 font-medium outline-none transition  disabled:cursor-default disabled:bg-whiter  dark:bg-form-input"
@@ -204,7 +204,7 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
                         {errors.Neighborhood && <span className="text-danger text-xs italic font-bold">{errors.Neighborhood.message}</span>}
                     </div>
                     <div className="mb-6 flex-1 min-h-24">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="Phone">
                             Telefono
                         </label>
                         <input id="Phone" type="number" placeholder="Telefono" className={"w-full rounded-lg border-[1.5px]  bg-transparent py-3 px-5 font-medium outline-none transition  disabled:cursor-default disabled:bg-whiter  dark:bg-form-input"
@@ -214,7 +214,7 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
                         {errors.Phone && <span className="text-danger text-xs italic font-bold">{errors.Phone.message}</span>}
                     </div>
                     <div className="mb-6 flex-1 min-h-24">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="Type">
                             Tipo de paciente
                         </label>
                         <div className="relative z-20 bg-transparent dark:bg-form-input">

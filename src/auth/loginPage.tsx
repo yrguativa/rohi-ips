@@ -131,7 +131,7 @@ export default function LoginPage() {
 
                                         <form onSubmit={handleSubmit(onSubmit)}>
                                             <div className="mb-4">
-                                                <label className="mb-2.5 block font-medium text-black dark:text-white" htmlFor="username">
+                                                <label className="mb-2.5 block font-medium text-black dark:text-white" htmlFor="email">
                                                     Correo Electronico
                                                 </label>
                                                 <div className="relative">

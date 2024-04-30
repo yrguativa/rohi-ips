@@ -95,11 +95,11 @@ export const getContractByEmail = async (email = ''): Promise<Contract | undefin
         const paymentsSnap = await getDocs(collectionRefPayments);
         paymentsSnap.forEach(doc => {
             const payment = doc.data() as Payment;
-            if (payment.Rate && !isNaN(payment.Rate)){
+            if (payment.Rate && !isNaN(payment.Rate)) {
                 try {
                     payment.Rate = parseInt(payment.Rate.toString())
-                } 
-                catch{
+                }
+                catch {
                     console.error("Error in convert Rate of payment")
                 }
             }
@@ -170,6 +170,12 @@ export const postContract = async (idContract: string, Contract: Contract, payme
             }
             if (pay.PaymentDate) {
                 paySave.PaymentDate = pay.PaymentDate;
+            }
+            if (pay.IdOrderMercadoPago) {
+                paySave.IdOrderMercadoPago = pay.IdOrderMercadoPago;
+            }
+            if (pay.IdPayMercadoPago) {
+                paySave.IdPayMercadoPago = pay.IdPayMercadoPago;
             }
             const docPaymentRef = doc(FirebaseDB, 'Contracts', idContract, 'Payments', idPay);
             await setDoc(docPaymentRef, paySave, { merge: true });

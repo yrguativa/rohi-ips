@@ -33,7 +33,7 @@ export const thunkPayment = (idPayment: string): ThunkAction<void, RootState, un
         const invoiceDate = new Date(payment.InvoiceDate! * 1000);
         const result = await CreatedOrder(contract!.Number!, payment.Id!, uidUser!, userName!, payment.Rate, invoiceDate);
         if (result && result.id) {
-            const pay = { ...payment, IdPayMercadoPago: result.id }
+            const pay = { ...payment, IdOrderMercadoPago: result.id }
             await postPayment(contract!.Number!, pay)
         }
         if (result.init_point !== undefined && result.init_point !== null && result.init_point !== '') {

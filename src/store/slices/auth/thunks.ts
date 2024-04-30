@@ -13,10 +13,9 @@ export const thunkLogin = (email: string, password: string): ThunkAction<void, R
     async dispatch => {
         dispatch(checkingCredentials());
         const result = await loginWithEmailPassword({ email, password });
-        if (!result.ok)
-        {
+        if (!result.ok) {
             dispatch(setErrorUI('Usuario y contraseña invalido'));
-            return; 
+            return;
         }
         const roles = await getRolesByUser(result.uid!);
         const state: IUserAuthState = {
@@ -97,22 +96,25 @@ export const thunkSignInGoogle = (): ThunkAction<void, RootState, unknown, Actio
     }
 
 export const thunkCheckedLogin = (user?: User | null): ThunkAction<void, RootState, unknown, Action> =>
-    async dispatch => {
+    async (dispatch, getState) => {
         if (!user) {
             return dispatch(logout({
                 errorMessage: ''
             } as IUserAuthState));
         }
-        const roles = await getRolesByUser(user.uid!);
-        const state: IUserAuthState = {
-            status: undefined,
-            uid: user.uid,
-            email: user.email,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            roles
-        };
-        dispatch(login(state));
+        const statusAuth = getState().userAuthState.status;
+        if (statusAuth !== 'authenticated') {            
+            const roles = await getRolesByUser(user.uid!);
+            const state: IUserAuthState = {
+                status: undefined,
+                uid: user.uid,
+                email: user.email,
+                displayName: user.displayName,
+                photoURL: user.photoURL,
+                roles
+            };
+            dispatch(login(state));
+        }
     }
 
 export const thunkLogout = (): ThunkAction<void, RootState, unknown, Action> =>

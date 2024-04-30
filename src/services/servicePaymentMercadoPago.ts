@@ -3,7 +3,7 @@ import { STATUS_RESPONSE_FAILURE, STATUS_RESPONSE_PENDING, STATUS_RESPONSE_SUCCE
 import { getEnvironments } from '../helpers/getEnviroments';
 import { getTextMonth } from '../utils/utilsDate';
 
-const { VITE_MCPAGO_TOKEN, VITE_MCPAGO_NOTIFICATION_RESPONSE } = getEnvironments();
+const { VITE_MCPAGO_TOKEN, VITE_MCPAGO_NOTIFICATION_RESPONSE, VITE_MCPAGO_WEBHOOK_RESPONSE } = getEnvironments();
 
 /*
 * Reference : https://www.mercadopago.com.co/developers/es/reference/preferences/_checkout_preferences/post
@@ -13,7 +13,7 @@ export async function CreatedOrder(contractId: string, idPayment: string, idClie
     const orderData = {
         application_id: "638518620025854",
         site_id: "MCO",
-        notification_url: "https://e720-190-237-16-208.sa.ngrok.io/webhook",
+        notification_url: VITE_MCPAGO_WEBHOOK_RESPONSE,
         back_urls: {
             success: `${VITE_MCPAGO_NOTIFICATION_RESPONSE}/${idPayment}/${STATUS_RESPONSE_SUCCESS}`,
             pending: `${VITE_MCPAGO_NOTIFICATION_RESPONSE}/${idPayment}/${STATUS_RESPONSE_PENDING}`,

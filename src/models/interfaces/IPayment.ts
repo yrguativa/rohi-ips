@@ -7,4 +7,5 @@ export interface Payment {
     Status: PaymentStatusEnum;
     PaymentDate?: number;
     IdPayMercadoPago?: string;
+    IdOrderMercadoPago?: string;
 }

@@ -11,6 +11,7 @@ export const getEnvironments = () => {
 
         VITE_MCPAGO_TOKEN: import.meta.env.VITE_MCPAGO_TOKEN,
         VITE_MCPAGO_NOTIFICATION_RESPONSE: import.meta.env.VITE_MCPAGO_NOTIFICATION_RESPONSE,
+        VITE_MCPAGO_WEBHOOK_RESPONSE: import.meta.env.VITE_MCPAGO_WEBHOOK_RESPONSE,
     };
 
     return {

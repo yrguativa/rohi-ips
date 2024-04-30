@@ -3,12 +3,11 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ListPatientsPage from "../../components/patients/listPatientsComponent";
 import { PaymentStatusEnum, StatusEnum } from "../../models/enums";
-import { Contract } from "../../models/interfaces";
+import { Contract, Payment } from "../../models/interfaces";
 import { cleanContractForm, thunkCreatedContract, thunkGetContract } from "../../store/slices/contract";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { DateAddMonths, dateToString, stringToStamp, timesStampToString } from "../../utils/utilsDate";
 import ListPaymentsPage from "../../components/payments/listPaymentsComponent";
-import { Payment } from '../../models/interfaces/IContractState';
 
 type FormContract = {
     Number: number;
@@ -126,7 +125,7 @@ export default function ContractCreatePage() {
                 className="rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-boxdark md:p-6 xl:p-9">
                 <div className="flex flex-col gap-7.5">
                     <div className="mb-4">
-                        <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="username">
+                        <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="Number">
                             Número de contrato
                         </label>
                         <input id="Number" type="text" placeholder="Numero" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -143,7 +142,7 @@ export default function ContractCreatePage() {
                         }
                     </div>
                     <div className="mb-4">
-                        <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="username">
+                        <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="Email">
                             Email
                         </label>
                         <input id="Email" type="email" placeholder="Email" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -160,7 +159,7 @@ export default function ContractCreatePage() {
                         }
                     </div>
                     <div className="mb-6">
-                        <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="password">
+                        <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="Rate">
                             Tarifa
                         </label>
                         <input id="Rate" type="number" placeholder="Tarifa" className={"w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -182,7 +181,7 @@ export default function ContractCreatePage() {
                         }
                     </div>
                     <div className="mb-6">
-                        <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="password">
+                        <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="DateStart">
                             Fecha Inicio Contrato
                         </label>
                         <input id="DateStart" type="date" placeholder="Inicio Contrato" className={"custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -199,7 +198,7 @@ export default function ContractCreatePage() {
                         }
                     </div>
                     <div className="mb-6">
-                        <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="password">
+                        <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="DateEnd">
                             Fecha fin de contrato
                         </label>
                         <input id="DateEnd" type="date" placeholder="Fin de Contrato" className={"custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -218,7 +217,7 @@ export default function ContractCreatePage() {
                     {
                         (idContract === undefined || idContract === null || idContract === '') &&
                         <div className="mb-6">
-                            <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="password">
+                            <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="DateNextPayment">
                                 Fecha siguiente pago
                             </label>
                             <input id="DateNextPayment" type="date" placeholder="Fin de Contrato" className={"custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -236,7 +235,7 @@ export default function ContractCreatePage() {
                         </div>
                     }
                     <div className="mb-6"  >
-                        <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="password">
+                        <label className="mb-3 block font-medium text-sm text-black dark:text-white" htmlFor="toggleStatus">
                             Estado
                         </label>
                         <label htmlFor="toggleStatus" className="flex cursor-pointer select-none items-center">

@@ -8,4 +8,5 @@ export interface Payment {
     PaymentDate?: number;
     IdPayMercadoPago?: string;
     IdOrderMercadoPago?: string;
+    NumberInvoiceRohi?:string
 }

@@ -177,6 +177,9 @@ export const postContract = async (idContract: string, Contract: Contract, payme
             if (pay.IdPayMercadoPago) {
                 paySave.IdPayMercadoPago = pay.IdPayMercadoPago;
             }
+            if (pay.NumberInvoiceRohi) {
+                paySave.NumberInvoiceRohi = pay.NumberInvoiceRohi;
+            }
             const docPaymentRef = doc(FirebaseDB, 'Contracts', idContract, 'Payments', idPay);
             await setDoc(docPaymentRef, paySave, { merge: true });
         } else {

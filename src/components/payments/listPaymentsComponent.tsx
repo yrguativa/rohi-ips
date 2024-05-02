@@ -22,6 +22,9 @@ export default function ListPaymentsPage({ payments }: listPaymentsProp) {
                 <div className="hidden p-2.5 text-center sm:block xl:p-5">
                     <h5 className="text-sm font-medium uppercase xsm:text-base">Fecha pago</h5>
                 </div>
+                <div className="hidden p-2.5 text-center sm:block xl:p-5">
+                    <h5 className="text-sm font-medium uppercase xsm:text-base">Número de Factura</h5>
+                </div>
             </div>
 
             {
@@ -52,6 +55,9 @@ export default function ListPaymentsPage({ payments }: listPaymentsProp) {
                         </div>
                         <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
                             <p className="font-medium text-black dark:text-white">{ pay.PaymentDate && naturalDay(pay.PaymentDate / 1000)}</p>
+                        </div>
+                        <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+                            <p className="font-medium text-black dark:text-white">{ pay.NumberInvoiceRohi}</p>
                         </div>
                     </div>
                 ))

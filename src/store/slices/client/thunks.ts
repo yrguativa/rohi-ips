@@ -4,8 +4,8 @@ import { Action, ThunkAction } from "@reduxjs/toolkit"
 import { RootState } from "../.."
 import { loadContract, updateStatusPayment, urlPayment } from "."
 import { CreatedOrder } from "../../../services/servicePaymentMercadoPago"
-import { PaymentStatusEnum, StatusEnum } from "../../../models/enums"
-import { ApplyPayment, getContractByEmail } from "../../../services"
+import { PaymentStatusEnum } from "../../../models/enums"
+import { getContractByEmail } from "../../../services"
 import { getCurrentUser } from "../../../firebase/providersAuth"
 import { postPayment } from "../../../services/servicePayment"
 
@@ -42,33 +42,4 @@ export const thunkPayment = (idPayment: string): ThunkAction<void, RootState, un
         }
         else
             dispatch(updateStatusPayment(PaymentStatusEnum.Error))
-    }
-
-
-export const thunkPaymentApply = (idPayment: string): ThunkAction<void, RootState, unknown, Action> =>
-    async () => {
-        const currentUser = getCurrentUser() ?? undefined;
-        if (!currentUser) return;
-
-        const contract = await getContractByEmail(currentUser.email!)
-        const payment = contract?.Payments?.find(p => p.Id == idPayment);
-        if (!contract?.Number) throw new Error('Contract not found in store');
-        if (!payment) throw new Error('Payment not found in store');
-
-        const paymentToFireStore = {
-            ...payment,
-            Status: PaymentStatusEnum.Approved,
-            PaymentDate: new Date().getTime(),
-        };
-        delete paymentToFireStore.Id;
-
-        const contractToFireStore = {
-            ...contract,
-            Status: StatusEnum.Active,
-            User: currentUser.uid
-        };
-        delete contractToFireStore.Number;
-        delete contractToFireStore.Payments;
-
-        await ApplyPayment(contract!.Number!, contractToFireStore, payment.Id!, paymentToFireStore);
     }

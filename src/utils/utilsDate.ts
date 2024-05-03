@@ -34,6 +34,7 @@ export const numberFormat = (number: number, decimals: number = 2, decPoint: str
 export const timesStampToDate = (timestamp: number) => {
     return new Date(timestamp * 1000);
 };
+
 export const stringToStamp = (dateString: string): number => {
     const dateSegments = dateString.split('-').map(segment => parseInt(segment))
     const dateConvert = new Date(dateSegments[0], dateSegments[1] - 1, dateSegments[2])
@@ -51,7 +52,6 @@ export const dateToString = (dateConvert: Date) => {
     return `${dateConvert.getFullYear()}-${(dateConvert.getMonth() + 1).toString().padStart(2, '0')}-${dateConvert.getDate().toString().padStart(2, '0')}`;
 }
 
-
 export const DateIsLeapYear = (year: number) => {
     return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0));
 };
@@ -67,7 +67,6 @@ export const DateAddMonths = (date: Date, months: number) => {
     date.setDate(Math.min(n, DateGetDaysInMonth(date)));
     return date;
 };
-
 
 export const getTextMonth = (date: Date) => {
     const monthTxt = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];

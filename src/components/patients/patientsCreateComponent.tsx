@@ -1,45 +1,65 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z, ZodError } from "zod";
+
 import { useAppDispatch } from "../../hooks/hooks";
 import { Patient } from "../../models/interfaces";
 import { StatusEnum } from "../../models/enums";
 import { FormPatient, patientFormSchema } from "../../validations/patientFormValidations";
 import { createPatientSave } from "../../store/slices/contract";
-import { stringToStamp } from "../../utils/utilsDate";
-import { useState } from "react";
-import { z, ZodError } from "zod";
+import { stringToStamp, timesStampToString } from "../../utils/utilsDate";
 
 type propsPage = {
-    stateCreate: StatusEnum
-    closeModal : () => void;
+    stateCreate: StatusEnum;
+    patientEdit?: Patient;
+    closeModal: () => void;
 }
 
-export default function PatientsCreatePage({ stateCreate, closeModal }: propsPage ) {
+export default function PatientsCreateComponent({ stateCreate, patientEdit, closeModal }: propsPage) {
     const dispatch = useAppDispatch();
     const [errorFormSubmit, setErrorFormSubmit] = useState<ZodError>();
+    let formLoadType: FormPatient | undefined;
+    if (patientEdit) {
+        formLoadType = {
+            Identification: parseInt(patientEdit.Identification!),
+            IdentificationType: patientEdit.IdentificationType,
+            Name: patientEdit.Name,
+            Email: patientEdit.Email,
+            Address: patientEdit.Address,
+            BirthDate: patientEdit.BirthDate ? timesStampToString(patientEdit.BirthDate) : undefined,
+            CellPhone: patientEdit.CellPhone ? parseInt(patientEdit.CellPhone!) : undefined,
+            City: patientEdit.City,
+            EPS: patientEdit.EPS,
+            Neighborhood: patientEdit.Neighborhood,
+            Phone: patientEdit.Phone ? parseInt(patientEdit.Phone!) : undefined,
+            Type: patientEdit.Type
+        };
+    }
+
     const { register, getValues, formState: { errors } } = useForm<FormPatient>({
         resolver: zodResolver(patientFormSchema),
         mode: 'onChange',
+        defaultValues: formLoadType
     });
 
     const onSubmitPatient = () => {
         const { Identification, IdentificationType, Name, Address, BirthDate, CellPhone, City, EPS, Email, Neighborhood, Phone, Type } = getValues();
         const patient: Patient = {
-            Identification: Identification.toString() ,
+            Identification: Identification.toString(),
             IdentificationType,
             Name,
             Address: Address != undefined && Address != "" ? Address : undefined,
             BirthDate: BirthDate != undefined && BirthDate != "" ? stringToStamp(BirthDate!) : undefined,
             CellPhone: CellPhone ? CellPhone.toString() : undefined,
             City,
-            EPS: EPS != undefined && EPS != "" ? EPS : undefined,
+            EPS: EPS ? EPS : undefined,
             Email: Email != undefined && Email != "" ? Email : undefined,
             Neighborhood: Neighborhood != undefined && Neighborhood != "" ? Neighborhood : undefined,
             Phone: Phone ? Phone.toString() : undefined,
             Type: parseInt(Type.toString()),
             Status: stateCreate
         }
-
         try {
             patientFormSchema.parse(patient);
             setErrorFormSubmit(undefined);
@@ -47,7 +67,6 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
             closeModal();
         } catch (error) {
             if (error instanceof z.ZodError) {
-                console.log(error.issues);
                 setErrorFormSubmit(error);
             }
         }
@@ -62,9 +81,9 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
                             Tipo de identificación
                         </label>
                         <div className="relative z-20 bg-transparent dark:bg-form-input">
-                            <select id="IdentificationType" className={"relative z-20 w-full appearance-none rounded border bg-transparent py-3 px-5 outline-none transition dark:bg-form-input"
+                            <select id="IdentificationType" className={"relative z-20 w-full appearance-none rounded border bg-transparent py-3 px-5 outline-none transition dark:bg-form-input disabled:cursor-default disabled:bg-whiter dark:disabled:bg-black"
                                 + (errors.IdentificationType ? " border-danger border-l-4 " : " border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary")}
-                                {...register("IdentificationType")}>
+                                disabled={patientEdit != null} {...register("IdentificationType")}>
                                 <option value="1">CC</option>
                                 <option value="2">TI</option>
                                 <option value="3">RC</option>
@@ -140,9 +159,9 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="Identification">
                             Identificación*
                         </label>
-                        <input id="Identification" type="number" placeholder="Identificación" className={"w-full rounded-lg border-[1.5px]  bg-transparent py-3 px-5 font-medium outline-none transition  disabled:cursor-default disabled:bg-whiter  dark:bg-form-input"
+                        <input id="Identification" type="number" placeholder="Identificación" className={"w-full rounded-lg border-[1.5px]  bg-transparent py-3 px-5 font-medium outline-none transition  disabled:cursor-default disabled:bg-whiter  dark:bg-form-input disabled:cursor-default disabled:bg-whiter dark:disabled:bg-black"
                             + (errors.Identification ? " border-danger border-l-4" : " border-stroke focus:border-primary active:border-primary dark:border-form-strokedark dark:focus:border-primary")}
-                            {...register("Identification")}>
+                            disabled={patientEdit != null} {...register("Identification")}>
                         </input>
                         {errors.Identification && <span className="text-danger text-xs italic font-bold">{errors.Identification.message}</span>}
                     </div>
@@ -246,7 +265,7 @@ export default function PatientsCreatePage({ stateCreate, closeModal }: propsPag
                     <ul>
                         {
                             errorFormSubmit.issues.map(is => {
-                                return (<li key={is.code + is.path.join()}> * {is.message}</li>)
+                                return (<li key={is.code + is.path.join()} title={is.path.join()} > ❌ {is.message}</li>)
                             })
                         }
                     </ul>

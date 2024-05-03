@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Contract, IContractFormState, Patient, } from "../../../models/interfaces";
+import { StatusEnum } from "../../../models/enums";
 
 
 const initialState: IContractFormState = {};
@@ -24,7 +25,12 @@ export const contractFormSlice = createSlice({
         removePatientSave: (state, action: PayloadAction<string>) => {
             const { payload: idPatient } = action;
 
-            const patients = state.ContractForm!.Patients!.filter(p => p.Identification != idPatient);
+            const patients = [...state.ContractForm!.Patients!];
+            patients.map(p => {
+                if (p.Identification == idPatient) {
+                    p.Status = StatusEnum.Cancel
+                }
+            });
             state.ContractForm!.Patients = [...patients];
         },
 

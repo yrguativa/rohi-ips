@@ -9,9 +9,9 @@ export const patientFormSchema = z //: ZodType<FormPatient> = z
             .number({ required_error: "El número de identificación es requerido", invalid_type_error: "El valor ingresado no es un número valido" })
             .gte(100000, { message: "El número de identificación debe tener al menos 6 caracteres" }),
         IdentificationType: z
-            .string()
-            .transform(val => IdentificationTypeEnum[val as keyof typeof IdentificationTypeEnum])
-            .refine(val => Object.values(IdentificationTypeEnum).includes(val as IdentificationTypeEnum), {
+            .coerce.number()
+            //.transform(val => IdentificationTypeEnum[val.toString() as keyof typeof IdentificationTypeEnum])
+            .refine(val => IdentificationTypeEnum[val.toString() as keyof typeof IdentificationTypeEnum] != undefined, {
                 message: 'El tipo de identificación no es válido',
             }),
         Name: z
@@ -19,10 +19,19 @@ export const patientFormSchema = z //: ZodType<FormPatient> = z
             .min(3, { message: "El nombre debe tener al menos 3 caracteres" })
             .max(500, { message: "El nombre debe tener maximo de 500 caracteres" }),
         Email: z
-            //.transform(val => val === "" ? undefined : val)
             .optional(
                 z.string()
                     .email({ message: "El valor ingresado no es un email valido." })
+            ),
+        EPS: z
+            .optional(
+                z.coerce.number()
+                    // .transform(val => {
+                    //     return val ? EPSEnum[val.toString() as keyof typeof EPSEnum]: undefined
+                    // })
+                    .refine(val => {
+                        return val === undefined || EPSEnum[val.toString() as keyof typeof EPSEnum] != undefined
+                    }, { message: 'La EPS no es un valor válido' })
             ),
         Address: z
             .optional(
@@ -32,11 +41,12 @@ export const patientFormSchema = z //: ZodType<FormPatient> = z
             ),
         BirthDate: z
             .optional(
-                z.string()
+                z.coerce
+                    .string()
                     //.datetime({message: "La fecha de cumpleaños no es valida"})
                     .refine(dob => {
                         // ToDo: validate que funcione la función
-                        return (dob === undefined || dob === null || dob === '') ||  (new Date(dob)) !== undefined
+                        return (dob === undefined || dob === null || dob === '') || (new Date(dob)) !== undefined
                     }, { message: "La fecha de cumpleaños no tiene un valor valido" })
             ),
         CellPhone: z
@@ -50,16 +60,6 @@ export const patientFormSchema = z //: ZodType<FormPatient> = z
                 z.coerce
                     .number({ required_error: "La ciudad es requerida", invalid_type_error: "El valor ingresado no es una ciudad valida" })
             ),
-        EPS: z
-            .optional(
-                z.string()
-                    .transform(val => {
-                        val ? EPSEnum[val as keyof typeof EPSEnum] : undefined
-                    })
-                    .refine(val => {
-                        return (val === undefined || val === null || val === '') || Object.values(EPSEnum).includes(val as EPSEnum)
-                    }, { message: 'La EPS no es un valor válido' })
-            ),
         Neighborhood: z
             .optional(
                 z.string()
@@ -72,12 +72,6 @@ export const patientFormSchema = z //: ZodType<FormPatient> = z
                     .number({ required_error: "El telefono es requerido", invalid_type_error: "El valor ingresado no es un telefono" })
                     .gte(100000, { message: "El telefono debe tener al menos 6 caracteres" })
             ),
-        // Status: z
-        //     .string()
-        //     .transform(val => StatusEnum[val as keyof typeof StatusEnum])
-        //     .refine(val => Object.values(StatusEnum).includes(val as StatusEnum), {
-        //         message: 'El tipo de identificación no es válido',
-        //     }),
         Type: z // ToDo: usar enum
             .coerce
             .number({ required_error: "El tipo es requerido", invalid_type_error: "El valor ingresado no es un tipo valido" })

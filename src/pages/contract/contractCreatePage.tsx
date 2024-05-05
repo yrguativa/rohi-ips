@@ -86,8 +86,8 @@ export default function ContractCreatePage() {
     }
 
     const onSubmit: SubmitHandler<FormContract> = data => {
+        console.log("🚀 ~ ContractCreatePage ~ data:", data)
         if (!data.Status) data.Status = StatusEnum.Disabled;
-
 
         const contract: Contract = {
             Number: data.Number.toString(),

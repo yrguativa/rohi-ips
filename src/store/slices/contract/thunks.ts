@@ -24,17 +24,9 @@ export const thunkCreatedContract =
     (contract: Contract): ThunkAction<void, RootState, unknown, Action> =>
         async (dispatch) => {
             contract.UserCreated = getCurrentUser().uid || "";
-            const numberContract = contract.Number!;
-            const payments = contract.Payments!;
-            const patients = contract.Patients!;
+            await postContract(contract);
 
-            delete contract.Number;
-            delete contract.Payments;
-            delete contract.Patients;
-
-            await postContract(numberContract.toString(), contract, payments, patients);
-
-            dispatch(setMessage(`Se creo el contrato número ${numberContract}`));
+            dispatch(setMessage(`Se ha guardado el contrato con número ${contract.Number}`));
         };
 
 

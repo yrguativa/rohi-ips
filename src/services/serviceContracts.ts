@@ -156,44 +156,55 @@ export const getContractById = async (idContract: string): Promise<Contract | un
     }
 }
 
-export const postContract = async (idContract: string, Contract: Contract, payments: Payment[], patients: Patient[]) => {
+export const postContract = async (Contract: Contract) => {
+    const contractSave = { ...Contract };
+    const idContract = Contract.Number!;
+
+    delete contractSave.Number;
+    delete contractSave.Payments;
+    delete contractSave.Patients;
+
     const docContractsRef = doc(FirebaseDB, 'Contracts', idContract);
-    await setDoc(docContractsRef, Contract, { merge: true });
+    await setDoc(docContractsRef, contractSave, { merge: true });
 
-    payments.forEach(async pay => {
-        if (pay.Id) {
-            const idPay = pay.Id
-            const paySave: Payment = {
-                Rate: pay.Rate,
-                Status: pay.Status,
-                InvoiceDate: pay.InvoiceDate,
+    if (Contract.Payments) {
+        Contract.Payments.forEach(async pay => {
+            if (pay.Id) {
+                const idPay = pay.Id
+                const paySave: Payment = {
+                    Rate: pay.Rate,
+                    Status: pay.Status,
+                    InvoiceDate: pay.InvoiceDate,
+                }
+                if (pay.PaymentDate) {
+                    paySave.PaymentDate = pay.PaymentDate;
+                }
+                if (pay.IdOrderMercadoPago) {
+                    paySave.IdOrderMercadoPago = pay.IdOrderMercadoPago;
+                }
+                if (pay.IdPayMercadoPago) {
+                    paySave.IdPayMercadoPago = pay.IdPayMercadoPago;
+                }
+                if (pay.NumberInvoiceRohi) {
+                    paySave.NumberInvoiceRohi = pay.NumberInvoiceRohi;
+                }
+                const docPaymentRef = doc(FirebaseDB, 'Contracts', idContract, 'Payments', idPay);
+                await setDoc(docPaymentRef, paySave, { merge: true });
+            } else {
+                const subCollectionRef = collection(docContractsRef, "Payments")
+                await addDoc(subCollectionRef, pay);
             }
-            if (pay.PaymentDate) {
-                paySave.PaymentDate = pay.PaymentDate;
-            }
-            if (pay.IdOrderMercadoPago) {
-                paySave.IdOrderMercadoPago = pay.IdOrderMercadoPago;
-            }
-            if (pay.IdPayMercadoPago) {
-                paySave.IdPayMercadoPago = pay.IdPayMercadoPago;
-            }
-            if (pay.NumberInvoiceRohi) {
-                paySave.NumberInvoiceRohi = pay.NumberInvoiceRohi;
-            }
-            const docPaymentRef = doc(FirebaseDB, 'Contracts', idContract, 'Payments', idPay);
-            await setDoc(docPaymentRef, paySave, { merge: true });
-        } else {
-            const subCollectionRef = collection(docContractsRef, "Payments")
-            await addDoc(subCollectionRef, pay);
-        }
-    });
+        });
+    }
 
-    patients.forEach(async patient => {
-        const identification = patient.Identification!;
-        const patientSave = { ...patient };
-        delete patientSave.Identification;
+    if (Contract.Patients) {
+        Contract.Patients.forEach(async patient => {
+            const identification = patient.Identification!;
+            const patientSave = { ...patient };
+            delete patientSave.Identification;
 
-        const docPaymentRef = doc(FirebaseDB, 'Contracts', idContract, 'Payments', identification);
-        await setDoc(docPaymentRef, patientSave, { merge: true });
-    });
+            const docPaymentRef = doc(FirebaseDB, 'Contracts', idContract, 'Payments', identification);
+            await setDoc(docPaymentRef, patientSave, { merge: true });
+        });
+    }
 }

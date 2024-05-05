@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import ListPatientsPage from "../../components/patients/listPatientsComponent";
+import ListPatientsComponent from "../../components/patients/listPatientsComponent";
 import { PaymentStatusEnum, StatusEnum } from "../../models/enums";
 import { Contract, Payment } from "../../models/interfaces";
 import { cleanContractForm, thunkCreatedContract, thunkGetContract } from "../../store/slices/contract";
@@ -21,7 +21,7 @@ type FormContract = {
 
 export default function ContractCreatePage() {
     const dispatch = useAppDispatch();
-    const { ContractForm  } = useAppSelector(state => state.contractFormSlice);
+    const { ContractForm } = useAppSelector(state => state.contractFormSlice);
     const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<FormContract>({
         defaultValues: {
             Status: StatusEnum.Disabled
@@ -50,7 +50,9 @@ export default function ContractCreatePage() {
             setValue('Email', ContractForm.Email!)
             setValue('Rate', ContractForm.Rate!)
             setValue('DateStart', timesStampToString(ContractForm.DateStart!))
-            setValue('DateEnd', timesStampToString(ContractForm.DateEnd!))
+            if (ContractForm.DateEnd) {
+                setValue('DateEnd', timesStampToString(ContractForm.DateEnd))
+            }
 
             const status = ToggleStatus ? StatusEnum.Active : StatusEnum.Disabled;
             if (ContractForm.Status !== status) {
@@ -64,7 +66,6 @@ export default function ContractCreatePage() {
                 const paymentDate = new Date(paymentLast.InvoiceDate!)
                 const nextPaymentDate = DateAddMonths(paymentDate, 1)
                 setValue('DateNextPayment', dateToString(nextPaymentDate))
-
             } else {
                 const paymentDate = new Date(ContractForm.DateStart!)
                 const nextPaymentDate = DateAddMonths(paymentDate, 1)
@@ -256,7 +257,7 @@ export default function ContractCreatePage() {
                 className="rounded-sm border border-stroke bg-white p-4 mt-4 shadow-default dark:border-strokedark dark:bg-boxdark md:p-6 xl:p-9">
                 <div className="flex flex-col gap-7.5">
                     <h2 className="text-xlg mt-3 mb-1">Pacientes</h2>
-                    <ListPatientsPage></ListPatientsPage>
+                    <ListPatientsComponent></ListPatientsComponent>
                 </div>
             </div>
 

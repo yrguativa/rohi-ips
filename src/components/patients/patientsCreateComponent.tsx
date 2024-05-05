@@ -279,7 +279,10 @@ export default function PatientsCreateComponent({ stateCreate, patientEdit, clos
             <div className="mb-6 flex-1/4">
                 <button type="button" className="flex w-full justify-center rounded bg-primary disabled:bg-stroke p-3 font-medium text-gray disabled:text-black mt-7"
                     // disabled={!isDirty || !isValid}
-                    onClick={onSubmitPatient} >
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        onSubmitPatient();
+                    }} >
                     Agregar Paciente
                 </button>
             </div>

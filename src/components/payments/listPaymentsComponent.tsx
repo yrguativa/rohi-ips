@@ -6,16 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { editInvoiceNumber } from "../../store/slices/contract";
 import { PaymentStatusEnum } from "../../models/enums";
-import { Payment } from "../../models/interfaces";
 import { naturalDay, numberFormat } from "../../utils/utilsDate";
 import { PaymentInvoiceContract, paymentInvoiceSchema } from "../../validations/paymentInvoiceValidations";
 
-type listPaymentsProp = {
-    payments: Payment[]
-}
-export default function ListPaymentsPage({ payments }: listPaymentsProp) {
+export default function ListPaymentsPage() {
     const { roles } = useAppSelector(state => state.userAuthState);
+    const { ContractForm } = useAppSelector(state => state.contractFormSlice);
     const dispatch = useAppDispatch();
+    const payments = ContractForm?.Payments || [];
     const [IsOpenDialogCreatedPatient, setIsOpenDialogInvoiceNumber] = useState(false);
     const [idPaymentEdit, setIdPaymentEdit] = useState<string | undefined>();
     const { register, getValues, setValue, formState: { errors } } = useForm<PaymentInvoiceContract>({

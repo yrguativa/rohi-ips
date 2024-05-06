@@ -2,7 +2,6 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Contract, IContractFormState, Patient, } from "../../../models/interfaces";
 import { StatusEnum } from "../../../models/enums";
 
-
 const initialState: IContractFormState = {};
 
 export const contractFormSlice = createSlice({
@@ -34,6 +33,19 @@ export const contractFormSlice = createSlice({
             state.ContractForm!.Patients = [...patients];
         },
 
+        editInvoiceNumber: (state, action: PayloadAction<{ idPay: string, invoice: string }>) => {
+            const { idPay, invoice } = action.payload;
+
+            const payments = [...state.ContractForm!.Payments!];
+            payments.map(pay => {
+                if (pay.Id == idPay) {
+                    pay.NumberInvoiceRohi = invoice
+                }
+            });
+
+            state.ContractForm!.Payments = [...payments];
+        },
+
         cleanContractForm: (state) => {
             state.ContractForm = undefined;
         },
@@ -41,4 +53,4 @@ export const contractFormSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { loadContractForm, createPatientSave, removePatientSave, cleanContractForm } = contractFormSlice.actions;
+export const { loadContractForm, createPatientSave, removePatientSave, editInvoiceNumber, cleanContractForm } = contractFormSlice.actions;

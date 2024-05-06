@@ -86,7 +86,6 @@ export default function ContractCreatePage() {
     }
 
     const onSubmit: SubmitHandler<FormContract> = data => {
-        console.log("🚀 ~ ContractCreatePage ~ data:", data)
         if (!data.Status) data.Status = StatusEnum.Disabled;
 
         const contract: Contract = {
@@ -243,10 +242,9 @@ export default function ContractCreatePage() {
                             <div className="relative">
                                 <input type="checkbox" id="toggleStatus" className="sr-only" onClick={toggleStatusChange} />
                                 <div className="block h-8 w-14 rounded-full bg-meta-9 dark:bg-[#5A616B]"></div>
-                                {/* <div className={"absolute left-1 top-1 h-6 w-6 rounded-full bg-white transition" +
-                            (ToggleStatus && '!right-1 !translate-x-full !bg-primary !bg-blue-500 dark:!bg-white')}></div> */}
-                                <div className={"absolute left-1 top-1 h-6 w-6 rounded-full bg-white transition" +
-                                    (ToggleStatus && '!right-1 !translate-x-full !bg-primary !bg-lime-500')}></div>
+                                <div className={"absolute left-1 top-1 h-6 w-6 rounded-full bg-white transition " +
+                                    (ToggleStatus && '!right-1 !translate-x-full !bg-primary !bg-blue-500 dark:!bg-white')}>
+                                </div>
                             </div>
                         </label>
                     </div>

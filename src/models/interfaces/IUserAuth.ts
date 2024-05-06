@@ -18,5 +18,6 @@ export interface IUserRegisterAuth {
 
 export interface IRolesAuth {
     isRadioUser: boolean,
+    isAccountant: boolean,
     isAdmin: boolean
 }

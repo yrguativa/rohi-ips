@@ -283,7 +283,7 @@ export default function PatientsCreateComponent({ stateCreate, patientEdit, clos
                         e.stopPropagation()
                         onSubmitPatient();
                     }} >
-                    Agregar Paciente
+                    Guardar
                 </button>
             </div>
         </div>
